@@ -21,7 +21,7 @@ class config:
     API_ID = "8623612"
     API_HASH = "06ea2889c5517eb64017b032d667e29f"
     BOT_TOKEN = "6396685550:AAFhzt65XsaJYYUD0oG5ktgZVz4UHIQaOtg"
-    SUDO_USERS = 5857041668
+    SUDO_USERS = "5857041668"
     CHANNELS = is_enabled((os.environ.get("CHANNELS", "True")), True)
     CHANNEL_ID = (
         [int(i.strip()) for i in os.environ.get("CHANNEL_ID", "-1002119954783").split(" ")]

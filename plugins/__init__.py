@@ -9,6 +9,3 @@ tgbots = Client(
     plugins=dict(root="plugins.modules"),
 )
 
-if __name__ == "__main__":
-    print("Bot started!")
-    tgbots.run()

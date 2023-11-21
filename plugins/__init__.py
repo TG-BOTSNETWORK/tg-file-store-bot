@@ -9,6 +9,6 @@ tgbots = Client(
     plugins=dict(root="plugins.modules"),
 )
 
-print("Bot started!")
-tgbots.start()
-idle()
+if __name__ == "__main__":
+    print("Bot started!")
+    app.run()

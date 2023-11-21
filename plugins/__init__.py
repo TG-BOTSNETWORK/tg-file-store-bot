@@ -1,4 +1,4 @@
-from pyrogram import Client
+from pyrogram import Client, idle
 from Config import config
 
 app = Client(

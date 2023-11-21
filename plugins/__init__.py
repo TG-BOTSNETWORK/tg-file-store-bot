@@ -7,7 +7,7 @@ tgstore = Client(
     api_hash=config.API_HASH,
     bot_token=config.BOT_TOKEN,
     plugins=dict(root="plugins.modules"),
-    storage=dict(is_memory=True)  
+    is_memory=True
 )
 
 print("Bot started!")

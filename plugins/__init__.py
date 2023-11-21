@@ -1,7 +1,7 @@
 from pyrogram import Client
 from Config import config
 
-tgstore = Client(
+app = Client(
     ":storing:",  
     api_id=config.API_ID,
     api_hash=config.API_HASH,
@@ -10,3 +10,5 @@ tgstore = Client(
 )
 
 print("Bot started!")
+app.start()
+idle()

@@ -1,8 +1,8 @@
 from pyrogram import Client, idle
 from Config import config
 
-app = Client(
-    ":storing:",  
+tgbots = Client(
+    ":tgbots:",  
     api_id=config.API_ID,
     api_hash=config.API_HASH,
     bot_token=config.BOT_TOKEN,
@@ -10,5 +10,5 @@ app = Client(
 )
 
 print("Bot started!")
-app.start()
+tgbots.start()
 idle()

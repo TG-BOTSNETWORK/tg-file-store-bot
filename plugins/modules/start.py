@@ -16,27 +16,8 @@ about_keyboard = InlineKeyboardMarkup([[
 
 help_keyboard = InlineKeyboardMarkup([[InlineKeyboardButton("⇦Back", callback_data="start")]])
 
-async def check_membership(user_id):
-    try:
-        member = await app.get_chat_member(chat_id=force_channel_id, user_id=user_id)
-        return member.status in ["member", "administrator", "creator"]
-    except UserNotParticipant:
-        return False
-
 @app.on_message(filters.command(["start"]) & filters.private)
 async def start(_, message: Message):
-    if force_channel_id:
-        if not await check_membership(message.from_user.id):
-            keyboard = InlineKeyboardMarkup([
-                [InlineKeyboardButton("Join Channel", url=f"https://t.me/TgBotsNetwork")],
-                [InlineKeyboardButton("Try Again", callback_data="again")]
-            ])
-            await message.reply_text(
-                "You are not joined in my channel. Please join the channel to use me.",
-                reply_markup=keyboard
-            )
-            return
-
     await message.reply_text(
         f"Hello {message.from_user.mention}\n\nI am a private files save bot. "
         "I can save private files on certain channels, and other users can access them from a special link.",
@@ -92,14 +73,3 @@ async def help(_, message: Message):
         "<u>**Note:**</u> if you want access admin commands by a premium membership",
         reply_markup=help_keyboard
     )
-
-@app.on_callback_query(filters.regex("again"))
-async def again_callback(_, callback_query):
-    if await check_membership(callback_query.from_user.id):
-        await callback_query.edit_message_text(
-            text=f"Hello {callback_query.from_user.mention}\n\nYou have successfully joined the channel! "
-                 "Now you can use the bot to save private files on certain channels and access them from a special link.",
-            reply_markup=start_keyboard
-        )
-    else:
-        await callback_query.answer("Please join the channel to use the bot.")

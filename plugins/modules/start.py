@@ -102,4 +102,5 @@ async def again_callback(_, callback_query):
             reply_markup=start_keyboard
         )
     else:
-        await callback_query.answer("Please join the channel to use the bot.")
+        await callback_query.answer("You are not joined in the channel. Please join the channel to use the bot.")
+

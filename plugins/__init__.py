@@ -10,4 +10,3 @@ with Client(
 ) as tgstore:
     print("Bot started!")
     tgstore.run()
-    idle()

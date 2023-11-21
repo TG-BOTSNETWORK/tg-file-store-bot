@@ -34,7 +34,7 @@ async def start(corn, message: Message):
 
     if message.command and message.command[0].lower() == "help":
         await message.reply_text(
-            ""Welcome to [TG FILE STORING BOT!](t.me/Tgfilestoringbot) Send any type of media, and I'll generate a special link for you.\n\n"
+            "Welcome to [TG FILE STORING BOT!](t.me/Tgfilestoringbot) Send any type of media, and I'll generate a special link for you.\n\n"
              "Commands:\n"
              "/start - Start using the bot\n"
              "/help - Display this help message\n"

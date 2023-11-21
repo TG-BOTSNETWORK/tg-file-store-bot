@@ -1,4 +1,3 @@
-
 pyrogram==2.0.106
 TgCrypto
 mdisky
@@ -9,3 +8,5 @@ python-dotenv
 uvloop
 asyncio
 dnspython==2.3.0
+pymongo[srv]
+motor

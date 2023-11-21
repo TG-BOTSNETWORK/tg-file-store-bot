@@ -17,7 +17,7 @@ about_keyboard = InlineKeyboardMarkup([[
 help_keyboard = InlineKeyboardMarkup([[InlineKeyboardButton("⇦Back", callback_data="start")]])
 
 @app.on_message(filters.command(["start", "help"]) & filters.private)
-async def start(corn, message: Message):
+async def start(_, message: Message):
     if force_channel:
         try:
             user = await app.get_chat_member(force_channel, message.from_user.id)
@@ -34,18 +34,23 @@ async def start(corn, message: Message):
     if message.command and message.command[0].lower() == "help":
         await message.reply_text(
             "Welcome to [TG FILE STORING BOT!](t.me/Tgfilestoringbot) Send any type of media, and I'll generate a special link for you.\n\n"
-             "Commands:\n"
-             "/start - Start using the bot\n"
-             "/help - Display this help message\n"
-             "<u>**Admin commands**</u>\n"
-             "/broadcast - Broadcast a message to all users\n"
-             "/stats - Display bot statistics\n"
-             "/batch - Perform batch operations\n"
-             "/genlink - Generate a special link for a file\n\n"
-             "<u>**Note:**</u> if you want access admin commmands by a premium membership",
-             reply_markup=help_keyboard
+            "Commands:\n"
+            "/start - Start using the bot\n"
+            "/help - Display this help message\n"
+            "<u>**Admin commands**</u>\n"
+            "/broadcast - Broadcast a message to all users\n"
+            "/stats - Display bot statistics\n"
+            "/batch - Perform batch operations\n"
+            "/genlink - Generate a special link for a file\n\n"
+            "<u>**Note:**</u> if you want access admin commmands by a premium membership",
+            reply_markup=help_keyboard
         )
         return
+
+    await message.reply_text(
+        f"Hello {message.from_user.mention}\n\nI am a private files save bot. I can save private files on certain channels, and other users can access them from a special link.",
+        reply_markup=start_keyboard
+    )
 
     await message.reply_text(
         f"Hello {message.from_user.mention}\n\nI am a private files save bot. I can save private files on certain channels, and other users can access them from a special link.",

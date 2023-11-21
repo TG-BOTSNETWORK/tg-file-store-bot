@@ -11,4 +11,4 @@ tgbots = Client(
 
 if __name__ == "__main__":
     print("Bot started!")
-    app.run()
+    tgbots.run()

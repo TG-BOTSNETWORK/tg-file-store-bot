@@ -9,5 +9,5 @@ tgstore = Client(
        plugins=dict(root="plugins.modules")
 )
 print("Bot started!")
-tgstore.start()
+tgstore.run()
 idle()

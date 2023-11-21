@@ -16,7 +16,6 @@ about_keyboard = InlineKeyboardMarkup([[
 
 help_keyboard = InlineKeyboardMarkup([[InlineKeyboardButton("⇦Back", callback_data="start")]])
 
-@admin_check
 @app.on_message(filters.command(["start", "help"]) & filters.private)
 async def start(corn, message: Message):
     if force_channel:
@@ -83,5 +82,3 @@ async def help_callback(client, CallbackQuery):
              "<u>**Note:**</u> if you want access admin commmands by a premium membership",
         reply_markup=help_keyboard
     )
-
-# Add your admin command implementations here

@@ -1,4 +1,4 @@
-rom pyrogram import Client, filters, idle
+from pyrogram import Client, filters, idle
 from Config import config
 
 tgstore = Client(

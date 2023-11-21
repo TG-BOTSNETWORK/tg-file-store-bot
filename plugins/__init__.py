@@ -10,5 +10,3 @@ tgstore = Client(
 )
 
 print("Bot started!")
-tgstore.start()
-tgstor.idle()

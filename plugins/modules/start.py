@@ -18,8 +18,8 @@ help_keyboard = InlineKeyboardMarkup([[InlineKeyboardButton("⇦Back", callback_
 
 async def check_membership(user_id):
     try:
-        user = await app.get_chat_member(force_channel_id, user_id)
-        return user.status != "kicked"
+        member = await app.get_chat_member(force_channel_id, user_id)
+        return member.status in ["member", "administrator", "creator"]
     except UserNotParticipant:
         return False
 
@@ -42,6 +42,7 @@ async def start(_, message: Message):
         "I can save private files on certain channels, and other users can access them from a special link.",
         reply_markup=start_keyboard
     )
+
 
 @app.on_callback_query(filters.regex("about"))
 async def about_callback(_, callback_query):
@@ -102,5 +103,5 @@ async def again_callback(_, callback_query):
             reply_markup=start_keyboard
         )
     else:
-        await callback_query.answer("You are not joined in the channel. Please join the channel to use the bot.")
+        await callback_query.answer("You are not joined in the channel. show_alert=True")
 

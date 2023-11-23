@@ -1,7 +1,7 @@
 from pyrogram import Client, filters
 from pyrogram.types import Message
 from datetime import datetime, timedelta
-from plugins.database.premium import add_premium_user, get_premium_users, delete_premium_users
+from plugins.database.premium import add_premium_user, get_premium_users, delete_premium_user
 from Config import config
 
 @bot.on_message(filters.command("addpremium") & filters.user(config.OWNER_ID))

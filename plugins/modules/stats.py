@@ -36,7 +36,7 @@ def button_click(client, callback_query):
                 f"Uploaded Files: {get_uploaded_files_count()}\n"
                 f"Saved Files: {get_saved_files_count()}\n"
                 f"Deleted Files: {get_deleted_files_count()}\n"
-                f"Pyrogram Version: {pyrogram.__version__}"
+                f"Pyrogram Version: {__version__}"
             )
 
             callback_query.edit_message_text(stats_text)

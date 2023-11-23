@@ -76,7 +76,7 @@ async def start_command(client, message: Message):
                         chat_id=message.from_user.id,
                         caption=caption,
                         parse_mode=ParseMode.HTML,
-                        reply_markup=start_keyboard,
+                        reply_markup=reply_markup,
                         protect_content=PROTECT_CONTENT
                     )
                     await asyncio.sleep(0.5)
@@ -86,7 +86,7 @@ async def start_command(client, message: Message):
                         chat_id=message.from_user.id,
                         caption=caption,
                         parse_mode=ParseMode.HTML,
-                        reply_markup=start_keyboard,
+                        reply_markup=reply_markup,
                         protect_content=PROTECT_CONTENT
                     )
                 except Exception as e:

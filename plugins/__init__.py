@@ -31,16 +31,16 @@ logging.getLogger("pyrogram").setLevel(logging.WARNING)
 def LOGGER(name: str) -> logging.Logger:
     return logging.getLogger(name)
 
-class Bot(Client):
+class bot(Client):
     def __init__(self):
         super().__init__(
-            name="Bot",
+            name="store bot",
             api_hash=config.API_HASH,
             api_id=config.APP_ID,
             plugins={
-                "root": "plugins"
+                "root": "plugins.modules"
             },
-            workers=config.BOT_WORKERS,
+            workers=BOT_WORKERS,
             bot_token=config.BOT_TOKEN
         )
         self.LOGGER = LOGGER

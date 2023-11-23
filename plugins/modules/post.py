@@ -5,7 +5,7 @@ from plugins import bot
 from Config import config
 import base64
 from pyrogram.errors import FloodWait
-from plugins.database.save_files_sql import add_total_files, add_saved_files, add_deleted_files
+from plugins.database.save_files_sql import add_total_files, add_deleted_files
 
 DISABLE_CHANNEL_BUTTON = False
 

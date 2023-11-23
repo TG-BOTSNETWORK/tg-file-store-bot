@@ -36,8 +36,8 @@ CREATE TABLE IF NOT EXISTS chats (
 );
 """
 
-connect(create_users_table_query)
-connect(create_chats_table_query)
+connect(create_users)
+connect(create_chats)
 
 def add_user(user_id):
     query = "INSERT INTO users (user_id) VALUES (%s) ON CONFLICT DO NOTHING RETURNING id;"

@@ -3,9 +3,9 @@ from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup, 
 from pyrogram.errors.exceptions import UserNotParticipant
 from plugins import bot
 from plugins.database import add_user
-from plugins.modules.post import decode
+from plugins.modules.post import decode, DISABLE_CHANNEL_BUTTON
 from plugins.modules.link import get_messages
-
+import os
 
 start_keyboard = InlineKeyboardMarkup([[
     InlineKeyboardButton("Help", callback_data="help"),
@@ -18,50 +18,91 @@ about_keyboard = InlineKeyboardMarkup([[
 
 help_keyboard = InlineKeyboardMarkup([[InlineKeyboardButton("⇦Back", callback_data="start")]])
 
+PROTECT_CONTENT = True if os.environ.get('PROTECT_CONTENT', "False") == "True" else False
+CUSTOM_CAPTION = os.environ.get("CUSTOM_CAPTION", None)
+
 @bot.on_message(filters.command("start") & filters.private)
-async def start(_, message: Message):
+async def start_command(_, message: Message):
     add_user(message.from_user.id)
     text = message.text
+
     if len(text) > 7:
         try:
             base64_string = text.split(" ", 1)[1]
-        except:
+        except IndexError:
             return
+
         string = await decode(base64_string)
         argument = string.split("-")
+
         if len(argument) == 3:
             try:
                 start = int(int(argument[1]) / abs(client.db_channel.id))
                 end = int(int(argument[2]) / abs(client.db_channel.id))
-            except:
+            except ValueError:
                 return
-            if start <= end:
-                ids = range(start, end + 1)
-            else:
-                ids = []
-                i = start
-                while True:
-                    ids.append(i)
-                    i -= 1
-                    if i < end:
-                        break
+
+            ids = list(range(start, end + 1))
+
         elif len(argument) == 2:
             try:
                 ids = [int(int(argument[1]) / abs(client.db_channel.id))]
-            except:
+            except ValueError:
                 return
+
         temp_msg = await message.reply("Please wait...")
+
         try:
             messages = await get_messages(client, ids)
-        except:
+        except Exception:
             await message.reply_text("Something went wrong..!")
             return
+
         await temp_msg.delete()
+
+        for msg in messages:
+            if bool(CUSTOM_CAPTION) and bool(msg.document):
+                caption = CUSTOM_CAPTION.format(
+                    previouscaption="" if not msg.caption else msg.caption.html,
+                    filename=msg.document.file_name
+                )
+            else:
+                caption = "" if not msg.caption else msg.caption.html
+
+            if DISABLE_CHANNEL_BUTTON:
+                reply_markup = msg.reply_markup
+            else:
+                reply_markup = None
+
+            try:
+                await msg.copy(
+                    chat_id=message.from_user.id,
+                    caption=caption,
+                    parse_mode=ParseMode.HTML,
+                    reply_markup=start_keyboard,
+                    protect_content=PROTECT_CONTENT
+                )
+                await asyncio.sleep(0.5)
+            except FloodWait as e:
+                await asyncio.sleep(e.x)
+                await msg.copy(
+                    chat_id=message.from_user.id,
+                    caption=caption,
+                    parse_mode=ParseMode.HTML,
+                    reply_markup=start_keyboard,
+                    protect_content=PROTECT_CONTENT
+                )
+            except Exception:
+                pass
+        return
+
+    else:
         await message.reply_text(
             f"Hello {message.from_user.mention}\n\nI am a private files save bot. "
             "I can save private files on certain channels, and other users can access them from a special link.",
             reply_markup=start_keyboard
         )
+
 
 @bot.on_callback_query(filters.regex("about"))
 async def about_callback(_, callback_query):

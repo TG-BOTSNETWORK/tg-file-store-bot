@@ -31,17 +31,17 @@ Connect(create_total_files)
 Connect(create_saved_files)
 Connect(create_deleted_files)
 
-def get_total_files():
+def add_total_files():
     query = "SELECT COUNT(*) FROM uploaded_files;"
     result = Connect(query, fetch=True)
     return result[0][0] if result else 0
 
-def get_saved_files():
+def add_saved_files():
     query = "SELECT COUNT(*) FROM saved_files;"
     result = Connect(query, fetch=True)
     return result[0][0] if result else 0
 
-def get_deleted_files():
+def add_deleted_files():
     query = "SELECT COUNT(*) FROM deleted_files;"
     result = Connect(query, fetch=True)
     return result[0][0] if result else 0

@@ -2,7 +2,7 @@ from pyrogram import Client, filters, __version__
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
 from plugins import bot 
 from plugins.database import add_user, add_chat, get_users, get_chats
-from plugins.database.save_files_sql import add_total_files, add_saved_files, add_deleted_files
+from plugins.database.save_files_sql import add_total_files, add_deleted_files
 from plugins.database.premium import add_premium_user, get_premium_users, delete_premium_user
 from Config import config
 
@@ -34,8 +34,7 @@ def see_full_stats(bot, callback_query):
             f"**Total Users:** `{total_users}`\n"
             f"**Total Chats:** `{total_chats}`\n"
             f"**Total Premium Users:** `{total_premium_users}`\n"
-            f"**Uploaded Files:** `{add_total_files()}`\n"
-            f"**Saved Files:** `{add_saved_files()}`\n"
+            f"** Total Uploaded Files:** `{add_total_files()}`\n"
             f"**Deleted Files:** `{add_deleted_files()}`\n"
             f"**Pyrogram Version:** `{__version__}`"
         )

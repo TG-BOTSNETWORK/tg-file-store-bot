@@ -5,6 +5,7 @@ from plugins import bot
 from Config import config
 import base64
 import re
+from pyrogram.errors import FloodWait
 
 DISABLE_CHANNEL_BUTTON = False
 

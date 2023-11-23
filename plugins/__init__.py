@@ -40,7 +40,7 @@ class bot(Client):
             plugins={
                 "root": "plugins.modules"
             },
-            workers=BOT_WORKERS,
+            workers=config.BOT_WORKERS,
             bot_token=config.BOT_TOKEN
         )
         self.LOGGER = LOGGER

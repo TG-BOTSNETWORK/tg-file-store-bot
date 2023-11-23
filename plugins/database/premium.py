@@ -1,7 +1,7 @@
 from plugins.database import Connect
 
 
-create_premium_users_table_query = """
+create_premium_users = """
 CREATE TABLE IF NOT EXISTS premium_users (
     id SERIAL PRIMARY KEY,
     user_id BIGINT UNIQUE NOT NULL

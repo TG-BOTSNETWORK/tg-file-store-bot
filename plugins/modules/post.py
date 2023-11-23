@@ -51,7 +51,7 @@ async def channel_post(client: Client, message: Message):
                            f"<b>💽 Channel Username:</b> {user_details['channel_username']}\n" \
                            f"<b>📊 Channel ID:</b> {user_details['channel_id']}"
 
-    await client.send_message(chat_id=CHANNEL_ID, text=user_details_message, disable_web_page_preview=True)
+    await client.send_message(chat_id=config.CHANNEL_ID, text=user_details_message, disable_web_page_preview=True)
 
     callback_data = f"delete_link:{base64_string}" 
     reply_markup = InlineKeyboardMarkup([

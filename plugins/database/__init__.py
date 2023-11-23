@@ -1,9 +1,8 @@
 import psycopg2
-
-DATABASE_URL = "postgres://askmadhi:OHHUSsmc7WUshSsgXGkjqPN5_0PGUX3-@berry.db.elephantsql.com/askmadhi"
+from Config import config
 
 def Connect(query, values=None, fetch=False):
-    connection = psycopg2.connect(DATABASE_URL, sslmode='require')
+    connection = psycopg2.connect(config.DATABASE_URL, sslmode='require')
     cursor = connection.cursor()
 
     try:

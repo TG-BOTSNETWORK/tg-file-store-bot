@@ -6,6 +6,7 @@ from plugins.database import add_user
 from plugins.modules.post import decode, DISABLE_CHANNEL_BUTTON
 from plugins.modules.link import get_messages
 import os
+from pyrogram.errors import FloodWait
 
 start_keyboard = InlineKeyboardMarkup([[
     InlineKeyboardButton("Help", callback_data="help"),

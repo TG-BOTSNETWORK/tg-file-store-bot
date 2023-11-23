@@ -8,8 +8,6 @@ import os
 import logging
 from logging.handlers import RotatingFileHandler
 
-BOT_WORKERS = "4"
-
 LOG_FILE_NAME = "tgfilestoringbot.txt"
 
 logging.basicConfig(

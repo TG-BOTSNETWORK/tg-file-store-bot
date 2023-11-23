@@ -1,7 +1,7 @@
 from plugins.database import Connect
 
 create_total_files = """
-CREATE TABLE uploaded_files (
+CREATE TABLE total_files (
     id SERIAL PRIMARY KEY,
     file_id TEXT NOT NULL,
     user_id BIGINT NOT NULL,

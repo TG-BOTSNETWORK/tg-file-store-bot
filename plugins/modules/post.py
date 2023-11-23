@@ -9,6 +9,11 @@ from pyrogram.errors import FloodWait
 
 DISABLE_CHANNEL_BUTTON = False
 
+@bot.on_message(filters.private & filters.incoming)
+async def useless(_,message: Message):
+    if "❌Don't send me messages directly I'm only File Share bot!":
+        await message.reply(❌Don't send me messages directly I'm only File Share bot!)
+
 async def decode(base64_string):
     base64_string = base64_string.replace("Tgfilestore_", "")  
     base64_bytes = base64_string.encode("ascii")
@@ -28,22 +33,23 @@ async def channel_post(client: Client, message: Message):
     await reply_text.edit_text("Making a file id...")
     await asyncio.sleep(0.3)
     await reply_text.edit_text("Uploading your special link...")
-    
+
     try:
-        post_message = await message.copy(chat_id=config.CHANNEL_ID, disable_notification=True)
+        post_message = await message.copy(chat_id=client.channel.id, disable_notification=True)
     except FloodWait as e:
         await asyncio.sleep(e.x)
-        post_message = await message.copy(chat_id=config.CHANNEL_ID, disable_notification=True)
+        post_message = await message.copy(chat_id=client.channel.id, disable_notification=True)
     except Exception as e:
         print(e)
         await reply_text.edit_text("Something went wrong...!")
         return
-    
-    converted_id = post_message.id * abs(config.CHANNEL_ID)
+
+    converted_id = post_message.message_id * abs(client.channel.id)
     string = f"get-{converted_id}"
     base64_string = await encode(string)
     link = f"https://t.me/{client.username}?start={base64_string if 'Tgfilestore_' in base64_string else 'Tgfilestore_' + base64_string}"
 
+    # Assuming user_details is defined elsewhere in your code
     user_details_message = f"<b>👤 User Details: 👤</b>\n\n" \
                            f"<b>👁 Uploaded By:</b> {user_details['uploaded_by']}\n" \
                            f"<b>🐧 User ID:</b> {user_details['user_id']}\n" \
@@ -73,15 +79,15 @@ async def new_post(client: Client, message: Message):
     if DISABLE_CHANNEL_BUTTON:
         return
 
-    converted_id = message.id * abs(config.CHANNEL_ID)
+    converted_id = message.message_id * abs(client.channel.id)
     string = f"get-{converted_id}"
     base64_string = await encode(string)
     link = f"https://t.me/{client.username}?start={base64_string if 'Tgfilestore_' in base64_string else 'Tgfilestore_' + base64_string}"
-    
+
     reply_markup = InlineKeyboardMarkup([
         [InlineKeyboardButton("🔁 Share URL", url=f'https://telegram.me/share/url?url={link}')]
     ])
-    
+
     try:
         await message.edit_reply_markup(reply_markup)
     except Exception as e:

@@ -2,7 +2,7 @@ from pyrogram import Client, filters
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from plugins import bot
 from Config import config
-from plugins.post import encode
+from plugins.modules.post import encode
 from pyrogram.errors import FloodWait
 
 async def get_messages(client, message_ids):

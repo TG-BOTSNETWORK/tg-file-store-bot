@@ -2,7 +2,7 @@ from pyrogram import Client, filters, __version__
 from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
 from plugins import bot 
 from plugins.database import add_user, add_chat, get_users, get_chats
-from plugins.database.save_files_sql import get_total_files, get_saved_files, get_deleted_files
+from plugins.database.save_files_sql import add_total_files, add_saved_files, add_deleted_files
 from plugins.database.premium import add_premium_user, get_premium_users, delete_premium_user
 from Config import config
 

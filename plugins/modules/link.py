@@ -73,7 +73,7 @@ def get_readable_time(seconds: int) -> str:
     return up_time
 
 
-@Bot.on_message(filters.private & filters.user(config.OWNER_ID) & filters.command('batch'))
+@bot.on_message(filters.private & filters.user(config.OWNER_ID) & filters.command('batch'))
 async def batch(client: Client, message: Message):
     while True:
         try:

@@ -6,6 +6,12 @@ from plugins.database.save_files_sql import get_total_files, get_saved_files, ge
 from plugins.database.premium import add_premium_user, get_premium_users, delete_premium_user
 from Config import config
 
+cls_keyboard = InlineKeyboardMarkup(
+            [
+                [InlineKeyboardButton("Close", callback_data="close")],
+            ]
+        )
+
 @bot.on_message("stats")
 def stats_command(client, message):
     if message.from_user.id == config.OWNER_ID:
@@ -30,15 +36,15 @@ def button_click(client, callback_query):
             total_premium_users = get_premium_users()
 
             stats_text = (
-                f"Total Users: {total_users}\n"
-                f"Total Chats: {total_chats}\n"
-                f"Total Premium Users: {total_premium_users}\n"
-                f"Uploaded Files: {get_total_files()}\n"
-                f"Saved Files: {get_saved_files()}\n"
-                f"Deleted Files: {get_deleted_files()}\n"
-                f"Pyrogram Version: {__version__}"
+                f"**Total Users:** `{total_users}`\n"
+                f"**Total Chats:** `{total_chats}`\n"
+                f"**Total Premium Users:** `{total_premium_users}`\n"
+                f"**Uploaded Files:** `{get_total_files()}`\n"
+                f"**Saved Files:** `{get_saved_files()}`\n"
+                f"**Deleted Files:** `{get_deleted_files()}`\n"
+                f"**Pyrogram Version:** `{__version__}`"
             )
 
-            callback_query.edit_message_text(stats_text)
+            callback_query.edit_message_text(stats_text, reply_markup=cls_keyboard)
     else:
         callback_query.answer("You are not authorized to use this button.", show_alert=True)

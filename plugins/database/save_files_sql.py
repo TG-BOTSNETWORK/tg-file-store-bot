@@ -10,7 +10,7 @@ CREATE TABLE total_files (
 """
 
 create_saved_files = """
-CREATE TABLE saved_files (
+CREATE TABLE saved_file (
     id SERIAL PRIMARY KEY,
     file_id TEXT NOT NULL,
     user_id BIGINT NOT NULL,
@@ -19,7 +19,7 @@ CREATE TABLE saved_files (
 """
 
 create_deleted_files = """
-CREATE TABLE deleted_files (
+CREATE TABLE deleted_file (
     id SERIAL PRIMARY KEY,
     file_id TEXT NOT NULL,
     user_id BIGINT NOT NULL,

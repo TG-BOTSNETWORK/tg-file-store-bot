@@ -21,7 +21,7 @@ class config:
     API_ID = "8623612"
     API_HASH = "06ea2889c5517eb64017b032d667e29f"
     BOT_TOKEN = "6396685550:AAFhzt65XsaJYYUD0oG5ktgZVz4UHIQaOtg"
-    SUDO_USERS = ["5857041668"]
+    SUDO_USERS = ["5857041668", "5810389985"]
     OWNER_ID = int(os.environ.get("OWNER_ID", "5857041668"))
     SUDO_USERS.append(OWNER_ID) if OWNER_ID not in SUDO_USERS else []
     CHANNELS = is_enabled((os.environ.get("CHANNELS", "True")), True)

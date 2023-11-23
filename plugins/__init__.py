@@ -36,7 +36,7 @@ class bot(Client):
         super().__init__(
             name="store bot",
             api_hash=config.API_HASH,
-            api_id=config.APP_ID,
+            api_id=config.API_ID,
             plugins={
                 "root": "plugins.modules"
             },

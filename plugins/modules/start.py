@@ -133,7 +133,8 @@ async def help_callback(_, callback_query):
              "/broadcast - Broadcast a message to all users\n"
              "/stats - Display bot statistics\n"
              "/batch - Perform batch operations\n"
-             "/genlink - Generate a special link for a file\n\n"
+             "/genlink - Generate a special link for a file\n"
+             "/delfile - Delete saved special link from database\n\n"
              "<u>**Note:**</u> if you want access admin commands by a premium membership",
         reply_markup=help_keyboard
     )
@@ -149,7 +150,8 @@ async def help(_, message: Message):
         "/broadcast - Broadcast a message to all users\n"
         "/stats - Display bot statistics\n"
         "/batch - Perform batch operations\n"
-        "/genlink - Generate a special link for a file\n\n"
+        "/genlink - Generate a special link for a file\n"
+        "/delfile - Delete saved special link from database\n\n"
         "<u>**Note:**</u> if you want access admin commands by a premium membership",
         reply_markup=help_keyboard
     )

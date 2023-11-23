@@ -9,15 +9,6 @@ CREATE TABLE IF NOT EXISTS total_file (
 );
 """
 
-create_saved_files = """
-CREATE TABLE IF NOT EXISTS saved_file (
-    id SERIAL PRIMARY KEY,
-    file_id TEXT NOT NULL,
-    user_id BIGINT NOT NULL,
-    save_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-"""
-
 create_deleted_files = """
 CREATE TABLE IF NOT EXISTS deleted_file (
     id SERIAL PRIMARY KEY,
@@ -28,15 +19,10 @@ CREATE TABLE IF NOT EXISTS deleted_file (
 """
 
 Connect(create_total_files)
-Connect(create_saved_files)
 Connect(create_deleted_files)
 
 def add_total_files(file_id, user_id):
     query = "INSERT INTO total_file (file_id, user_id) VALUES (%s, %s);"
-    Connect(query, (file_id, user_id))
-
-def add_saved_files(file_id, user_id):
-    query = "INSERT INTO saved_file (file_id, user_id) VALUES (%s, %s);"
     Connect(query, (file_id, user_id))
 
 def add_deleted_files(file_id, user_id):
@@ -45,11 +31,6 @@ def add_deleted_files(file_id, user_id):
 
 def get_total_files_count():
     query = "SELECT COUNT(*) FROM total_file;"
-    result = Connect(query, fetch=True)
-    return result[0][0] if result else 0
-
-def get_saved_files_count():
-    query = "SELECT COUNT(*) FROM saved_file;"
     result = Connect(query, fetch=True)
     return result[0][0] if result else 0
 

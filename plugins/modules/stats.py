@@ -11,7 +11,7 @@ cls_keyboard = InlineKeyboardMarkup(
 )
 
 @bot.on_message(filters.command("stats"))
-def stats(client, message):
+def stats(bot, message):
     if message.from_user.id == config.OWNER_ID:
         keyboard = InlineKeyboardMarkup(
             [[InlineKeyboardButton("See Full Stats", callback_data="see_full_stats")]]
@@ -24,7 +24,7 @@ def stats(client, message):
         message.reply_text("You are not authorized to use this command.")
 
 @bot.on_callback_query(filters.regex("see_full_stats"))
-def see_full_stats(client, callback_query):
+def see_full_stats(bot, callback_query):
     if callback_query.from_user.id == config.OWNER_ID:
         total_users = get_users()
         total_chats = get_chats()

@@ -21,15 +21,14 @@ def connect(query, values=None, fetch=False):
         cursor.close()
         connection.close()
 
-# Create tables if not exist
-create_users_table_query = """
+create_users = """
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     user_id BIGINT UNIQUE NOT NULL
 );
 """
 
-create_chats_table_query = """
+create_chats = """
 CREATE TABLE IF NOT EXISTS chats (
     id SERIAL PRIMARY KEY,
     chat_id BIGINT UNIQUE NOT NULL

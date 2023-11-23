@@ -3,6 +3,7 @@ from pyrogram.types import Message
 from datetime import datetime, timedelta
 from plugins.database.premium import add_premium_user, get_premium_users, delete_premium_user
 from Config import config
+from plugins import bot 
 
 @bot.on_message(filters.command("addpremium") & filters.user(config.OWNER_ID))
 async def addpremium(client: Client, message: Message):

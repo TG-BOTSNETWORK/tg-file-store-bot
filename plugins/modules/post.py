@@ -9,11 +9,6 @@ from pyrogram.errors import FloodWait
 
 DISABLE_CHANNEL_BUTTON = False
 
-@bot.on_message(filters.private & filters.incoming)
-async def useless(_,message: Message):
-    if "❌Don't send me messages directly I'm only File Share bot!":
-        await message.reply(❌Don't send me messages directly I'm only File Share bot!)
-
 async def decode(base64_string):
     base64_string = base64_string.replace("Tgfilestore_", "")  
     base64_bytes = base64_string.encode("ascii")

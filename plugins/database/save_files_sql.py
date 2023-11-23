@@ -1,6 +1,6 @@
 from plugins.database import Connect
 
-create_uploaded_files_table = """
+create_total_files = """
 CREATE TABLE uploaded_files (
     id SERIAL PRIMARY KEY,
     file_id TEXT NOT NULL,
@@ -9,7 +9,7 @@ CREATE TABLE uploaded_files (
 );
 """
 
-create_saved_files_table = """
+create_saved_files = """
 CREATE TABLE saved_files (
     id SERIAL PRIMARY KEY,
     file_id TEXT NOT NULL,
@@ -18,7 +18,7 @@ CREATE TABLE saved_files (
 );
 """
 
-create_deleted_files_table = """
+create_deleted_files = """
 CREATE TABLE deleted_files (
     id SERIAL PRIMARY KEY,
     file_id TEXT NOT NULL,
@@ -27,21 +27,21 @@ CREATE TABLE deleted_files (
 );
 """
 
-Connect(create_uploaded_files_table)
-Connect(create_saved_files_table)
-Connect(create_deleted_files_table)
+Connect(create_total_files)
+Connect(create_saved_files)
+Connect(create_deleted_files)
 
-def get_uploaded_files_count():
+def get_total_files():
     query = "SELECT COUNT(*) FROM uploaded_files;"
     result = Connect(query, fetch=True)
     return result[0][0] if result else 0
 
-def get_saved_files_count():
+def get_saved_filest():
     query = "SELECT COUNT(*) FROM saved_files;"
     result = Connect(query, fetch=True)
     return result[0][0] if result else 0
 
-def get_deleted_files_count():
+def get_deleted_files():
     query = "SELECT COUNT(*) FROM deleted_files;"
     result = Connect(query, fetch=True)
     return result[0][0] if result else 0

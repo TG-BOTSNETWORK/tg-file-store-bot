@@ -4,8 +4,8 @@ import asyncio
 from plugins import bot
 from Config import config
 import base64
-import re
 from pyrogram.errors import FloodWait
+from plugins.database.save_files_sql import add_total_files, add_saved_files, add_deleted_files
 
 DISABLE_CHANNEL_BUTTON = False
 
@@ -55,6 +55,7 @@ async def channel_post(client: Client, message: Message):
 
     if not DISABLE_CHANNEL_BUTTON:
         await post_message.edit_reply_markup(reply_markup)
+        add_total_files(link)
 
 @bot.on_message(filters.channel & filters.incoming & filters.chat(config.CHANNEL_ID))
 async def new_post(client: Client, message: Message):
@@ -65,13 +66,25 @@ async def new_post(client: Client, message: Message):
     string = f"get-{converted_id}"
     base64_string = await encode(string)
     link = f"https://t.me/{client.username}?start={base64_string if 'Tgfilestore_' in base64_string else 'Tgfilestore_' + base64_string}"
-
     reply_markup = InlineKeyboardMarkup([
         [InlineKeyboardButton("🔁 Share URL", url=f'https://telegram.me/share/url?url={link}')]
     ])
 
     try:
         await message.edit_reply_markup(reply_markup)
+        add_total_files(link)
     except Exception as e:
         print(e)
-        pass
+
+@bot.on_message(filters.command("delfile") & filters.private)
+async def delete_file(client: Client, message: Message):
+    try:
+        _, base64_string = message.text.split(" ", 1)
+        base64_string = base64_string.replace("Tgfilestore_", "")
+        string = await decode(base64_string)
+        add_deleted_files(string)    
+        await message.reply_text(f"The file with special link '{string}' has been deleted.")
+    except Exception as e:
+        print(e)
+        await message.reply_text("Something went wrong...!")
+

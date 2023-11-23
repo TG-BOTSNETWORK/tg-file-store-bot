@@ -18,6 +18,7 @@ help_keyboard = InlineKeyboardMarkup([[InlineKeyboardButton("⇦Back", callback_
 @bot.on_message(filters.command("start") & filters.private)
 async def start(_, message: Message):
     add_user(message.from_user.id)
+    text = message.text
     if len(text) > 7:
         try:
             base64_string = text.split(" ", 1)[1]

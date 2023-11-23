@@ -43,19 +43,6 @@ async def channel_post(client: Client, message: Message):
     string = f"get-{converted_id}"
     base64_string = await encode(string)
     link = f"https://t.me/{client.username}?start={base64_string if 'Tgfilestore_' in base64_string else 'Tgfilestore_' + base64_string}"
-
-    # Assuming user_details is defined elsewhere in your code
-    user_details_message = f"<b>👤 User Details: 👤</b>\n\n" \
-                           f"<b>👁 Uploaded By:</b> {user_details['uploaded_by']}\n" \
-                           f"<b>🐧 User ID:</b> {user_details['user_id']}\n" \
-                           f"<b>📂 Uploaded Files:</b> {', '.join(user_details['uploaded_files'])}\n" \
-                           f"<b>💬 Channel Name:</b> {user_details['channel_name']}\n" \
-                           f"<b>💽 Channel Username:</b> {user_details['channel_username']}\n" \
-                           f"<b>📊 Channel ID:</b> {user_details['channel_id']}"
-
-    await client.send_message(chat_id=config.CHANNEL_ID, text=user_details_message, disable_web_page_preview=True)
-
-    callback_data = f"delete_link:{base64_string}" 
     reply_markup = InlineKeyboardMarkup([
         [InlineKeyboardButton("🔁 Share URL", url=f'https://telegram.me/share/url?url={link}')]
     ])

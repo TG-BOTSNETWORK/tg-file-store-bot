@@ -33,69 +33,65 @@ async def start_command(client, message: Message):
         except IndexError:
             return
 
-        string = await decode(base64_string)
-        argument = string.split("-")
+        try:
+            string = await decode(base64_string)
+            argument = string.split("-")
 
-        if len(argument) == 3:
-            try:
+            if len(argument) == 3:
                 start = int(int(argument[1]) / abs(client.db_channel.id))
                 end = int(int(argument[2]) / abs(client.db_channel.id))
-            except ValueError:
-                return
+                ids = list(range(start, end + 1))
 
-            ids = list(range(start, end + 1))
-
-        elif len(argument) == 2:
-            try:
+            elif len(argument) == 2:
                 ids = [int(int(argument[1]) / abs(client.db_channel.id))]
-            except ValueError:
-                return
 
-        temp_msg = await message.reply("Please wait...")
-
-        try:
-            messages = await get_messages(client, ids)
-        except Exception:
-            await message.reply_text("Something went wrong..!")
-            return
-
-        await temp_msg.delete()
-
-        for msg in messages:
-            if bool(CUSTOM_CAPTION) and bool(msg.document):
-                caption = CUSTOM_CAPTION.format(
-                    previouscaption="" if not msg.caption else msg.caption.html,
-                    filename=msg.document.file_name
-                )
-            else:
-                caption = "" if not msg.caption else msg.caption.html
-
-            if DISABLE_CHANNEL_BUTTON:
-                reply_markup = msg.reply_markup
-            else:
-                reply_markup = None
+            temp_msg = await message.reply("Please wait...")
 
             try:
-                await msg.copy(
-                    chat_id=message.from_user.id,
-                    caption=caption,
-                    parse_mode=ParseMode.HTML,
-                    reply_markup=start_keyboard,
-                    protect_content=PROTECT_CONTENT
-                )
-                await asyncio.sleep(0.5)
-            except FloodWait as e:
-                await asyncio.sleep(e.x)
-                await msg.copy(
-                    chat_id=message.from_user.id,
-                    caption=caption,
-                    parse_mode=ParseMode.HTML,
-                    reply_markup=start_keyboard,
-                    protect_content=PROTECT_CONTENT
-                )
-            except Exception:
-                pass
-        return
+                messages = await get_messages(client, ids)
+            except Exception as e:
+                await message.reply_text(f"Error getting messages: {e}")
+                return
+
+            await temp_msg.delete()
+
+            for msg in messages:
+                if bool(CUSTOM_CAPTION) and bool(msg.document):
+                    caption = CUSTOM_CAPTION.format(
+                        previouscaption="" if not msg.caption else msg.caption.html,
+                        filename=msg.document.file_name
+                    )
+                else:
+                    caption = "" if not msg.caption else msg.caption.html
+
+                if DISABLE_CHANNEL_BUTTON:
+                    reply_markup = msg.reply_markup
+                else:
+                    reply_markup = None
+
+                try:
+                    await msg.copy(
+                        chat_id=message.from_user.id,
+                        caption=caption,
+                        parse_mode=ParseMode.HTML,
+                        reply_markup=start_keyboard,
+                        protect_content=PROTECT_CONTENT
+                    )
+                    await asyncio.sleep(0.5)
+                except FloodWait as e:
+                    await asyncio.sleep(e.x)
+                    await msg.copy(
+                        chat_id=message.from_user.id,
+                        caption=caption,
+                        parse_mode=ParseMode.HTML,
+                        reply_markup=start_keyboard,
+                        protect_content=PROTECT_CONTENT
+                    )
+                except Exception as e:
+                    await message.reply_text(f"Error copying message: {e}")
+
+        except Exception as e:
+            await message.reply_text(f"Error decoding base64 string: {e}")
 
     else:
         await message.reply_text(
@@ -103,6 +99,7 @@ async def start_command(client, message: Message):
             "I can save private files on certain channels, and other users can access them from a special link.",
             reply_markup=start_keyboard
         )
+
 
 
 @bot.on_callback_query(filters.regex("about"))

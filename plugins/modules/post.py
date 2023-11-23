@@ -54,14 +54,15 @@ async def channel_post(client: Client, message: Message):
     )
 
     if not DISABLE_CHANNEL_BUTTON:
+        user_id = message.from_user.id
+        add_total_files(link, user_id)
         await post_message.edit_reply_markup(reply_markup)
-        add_total_files(link)
+
 
 @bot.on_message(filters.channel & filters.incoming & filters.chat(config.CHANNEL_ID))
 async def new_post(client: Client, message: Message):
     if DISABLE_CHANNEL_BUTTON:
         return
-
     converted_id = message.message.id * abs(client.db_channel.id)
     string = f"get-{converted_id}"
     base64_string = await encode(string)
@@ -72,7 +73,8 @@ async def new_post(client: Client, message: Message):
 
     try:
         await message.edit_reply_markup(reply_markup)
-        add_total_files(link)
+        user_id = message.from_user.id
+        add_total_files(link, user_id)
     except Exception as e:
         print(e)
 

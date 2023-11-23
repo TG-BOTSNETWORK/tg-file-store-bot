@@ -76,7 +76,7 @@ async def new_post(client: Client, message: Message):
     except Exception as e:
         print(e)
 
-@bot.on_message(filters.command & filter.user(config.OWNER_ID)("delfile") & filters.private)
+@bot.on_message(filters.command & filters.user(config.OWNER_ID)("delfile") & filters.private)
 async def delete_file(client: Client, message: Message):
     try:
         _, base64_string = message.text.split(" ", 1)

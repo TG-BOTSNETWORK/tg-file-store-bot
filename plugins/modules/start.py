@@ -3,6 +3,9 @@ from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup, 
 from pyrogram.errors.exceptions import UserNotParticipant
 from plugins import bot
 from plugins.database import add_user
+from plugins.modules.post import decode
+from plugins.modules.link import get_messages
+
 
 start_keyboard = InlineKeyboardMarkup([[
     InlineKeyboardButton("Help", callback_data="help"),

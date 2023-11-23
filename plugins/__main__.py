@@ -4,5 +4,5 @@ from plugins import bot
 
 if __name__ == "__main__":
     print("Bot started!")
-    bot.run()
+    bot().run()
     idle()

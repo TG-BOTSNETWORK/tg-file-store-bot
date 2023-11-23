@@ -1,19 +1,43 @@
-from pyrogram import Client, filters
-from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram import Client, filters, __version__
+from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
 from plugins import bot 
-from plugins.database import add_user, add_chat, get_users, get_chats
+from plugins.database import add_user, add_chat, get_users, get_chats, get_uploaded_files_count, get_saved_files_count, get_deleted_files_count
 from plugins.database.premium import add_premium_user, get_premium_users, delete_premium_user
 from Config import config
 
 @bot.on_message("stats")
 def stats_command(client, message):
-    if message.from_user.id == config.OWNER_ID:  
-        total_users = get_users()
-        total_chats = get_chats()
-        total_premium_users = get_premium_users()
-
+    if message.from_user.id == config.OWNER_ID:
+        keyboard = InlineKeyboardMarkup(
+            [
+                [InlineKeyboardButton("See Full Stats", callback_data="see_full_stats")],
+            ]
+        )
         message.reply_text(
-            f"Total Users: {total_users}\nTotal Chats: {total_chats}\nTotal Premium Users: {total_premium_users}"
+            "Click the button below to see full stats.",
+            reply_markup=keyboard
         )
     else:
         message.reply_text("You are not authorized to use this command.")
+
+@bot.on_callback_query()
+def button_click(client, callback_query):
+    if callback_query.from_user.id == config.OWNER_ID:
+        if callback_query.data == "see_full_stats":
+            total_users = get_users()
+            total_chats = get_chats()
+            total_premium_users = get_premium_users()
+
+            stats_text = (
+                f"Total Users: {total_users}\n"
+                f"Total Chats: {total_chats}\n"
+                f"Total Premium Users: {total_premium_users}\n"
+                f"Uploaded Files: {get_uploaded_files_count()}\n"
+                f"Saved Files: {get_saved_files_count()}\n"
+                f"Deleted Files: {get_deleted_files_count()}\n"
+                f"Pyrogram Version: {pyrogram.__version__}"
+            )
+
+            callback_query.edit_message_text(stats_text)
+    else:
+        callback_query.answer("You are not authorized to use this button.", show_alert=True)

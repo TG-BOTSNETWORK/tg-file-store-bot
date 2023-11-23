@@ -49,14 +49,14 @@ class bot(Client):
         self.uptime = datetime.now()
 
         try:
-            db_channel = await self.get_chat(config.CHANNEL_ID)
+            db_channel = await self.get_chat(config.DB_CHANNEL)
             self.db_channel = db_channel
             test = await self.send_message(chat_id=db_channel.id, text="Test Message")
             await test.delete()
         except Exception as e:
             self.LOGGER(__name__).warning(e)
             self.LOGGER(__name__).warning(
-                f"Make sure the bot is an admin in the DB Channel, and double-check the CHANNEL_ID Value. Current Value: {config.CHANNEL_ID}")
+                f"Make sure the bot is an admin in the DB Channel, and double-check the DB_CHANNEL  Value. Current Value: {config.DB_CHANNEL}")
             self.LOGGER(__name__).info("\nBot Stopped.")
             sys.exit()
 

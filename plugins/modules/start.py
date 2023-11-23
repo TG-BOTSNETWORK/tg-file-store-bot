@@ -8,6 +8,7 @@ from plugins.modules.link import get_messages
 import os
 from pyrogram.errors import FloodWait
 from pyrogram.enums import ParseMode
+import asyncio 
 
 start_keyboard = InlineKeyboardMarkup([[
     InlineKeyboardButton("Help", callback_data="help"),

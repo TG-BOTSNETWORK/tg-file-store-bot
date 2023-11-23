@@ -30,16 +30,16 @@ async def channel_post(client: Client, message: Message):
     await reply_text.edit_text("Uploading your special link...")
     
     try:
-        post_message = await message.copy(chat_id=client.db_channel.id, disable_notification=True)
+        post_message = await message.copy(chat_id=config.CHANNEL_ID, disable_notification=True)
     except FloodWait as e:
         await asyncio.sleep(e.x)
-        post_message = await message.copy(chat_id=client.db_channel.id, disable_notification=True)
+        post_message = await message.copy(chat_id=config.CHANNEL_ID, disable_notification=True)
     except Exception as e:
         print(e)
         await reply_text.edit_text("Something went wrong...!")
         return
     
-    converted_id = post_message.id * abs(client.db_channel.id)
+    converted_id = post_message.id * abs(config.CHANNEL_ID)
     string = f"get-{converted_id}"
     base64_string = await encode(string)
     link = f"https://t.me/{client.username}?start={base64_string if 'Tgfilestore_' in base64_string else 'Tgfilestore_' + base64_string}"
@@ -73,7 +73,7 @@ async def new_post(client: Client, message: Message):
     if DISABLE_CHANNEL_BUTTON:
         return
 
-    converted_id = message.id * abs(client.db_channel.id)
+    converted_id = message.id * abs(config.CHANNEL_ID)
     string = f"get-{converted_id}"
     base64_string = await encode(string)
     link = f"https://t.me/{client.username}?start={base64_string if 'Tgfilestore_' in base64_string else 'Tgfilestore_' + base64_string}"

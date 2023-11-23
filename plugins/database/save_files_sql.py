@@ -36,7 +36,7 @@ def get_total_files():
     result = Connect(query, fetch=True)
     return result[0][0] if result else 0
 
-def get_saved_filest():
+def get_saved_files():
     query = "SELECT COUNT(*) FROM saved_files;"
     result = Connect(query, fetch=True)
     return result[0][0] if result else 0

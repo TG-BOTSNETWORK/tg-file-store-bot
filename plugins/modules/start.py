@@ -18,11 +18,46 @@ help_keyboard = InlineKeyboardMarkup([[InlineKeyboardButton("⇦Back", callback_
 @bot.on_message(filters.command("start") & filters.private)
 async def start(_, message: Message):
     add_user(message.from_user.id)
-    await message.reply_text(
-        f"Hello {message.from_user.mention}\n\nI am a private files save bot. "
-        "I can save private files on certain channels, and other users can access them from a special link.",
-        reply_markup=start_keyboard
-    )
+    if len(text) > 7:
+        try:
+            base64_string = text.split(" ", 1)[1]
+        except:
+            return
+        string = await decode(base64_string)
+        argument = string.split("-")
+        if len(argument) == 3:
+            try:
+                start = int(int(argument[1]) / abs(client.db_channel.id))
+                end = int(int(argument[2]) / abs(client.db_channel.id))
+            except:
+                return
+            if start <= end:
+                ids = range(start, end + 1)
+            else:
+                ids = []
+                i = start
+                while True:
+                    ids.append(i)
+                    i -= 1
+                    if i < end:
+                        break
+        elif len(argument) == 2:
+            try:
+                ids = [int(int(argument[1]) / abs(client.db_channel.id))]
+            except:
+                return
+        temp_msg = await message.reply("Please wait...")
+        try:
+            messages = await get_messages(client, ids)
+        except:
+            await message.reply_text("Something went wrong..!")
+            return
+        await temp_msg.delete()
+        await message.reply_text(
+            f"Hello {message.from_user.mention}\n\nI am a private files save bot. "
+            "I can save private files on certain channels, and other users can access them from a special link.",
+            reply_markup=start_keyboard
+        )
 
 @bot.on_callback_query(filters.regex("about"))
 async def about_callback(_, callback_query):

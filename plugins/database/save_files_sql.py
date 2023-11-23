@@ -31,17 +31,29 @@ Connect(create_total_files)
 Connect(create_saved_files)
 Connect(create_deleted_files)
 
-def add_total_files():
-    query = "SELECT COUNT(*) FROM uploaded_files;"
+def add_total_files(file_id, user_id):
+    query = "INSERT INTO total_file (file_id, user_id) VALUES (%s, %s);"
+    Connect(query, (file_id, user_id), commit=True)
+
+def add_saved_files(file_id, user_id):
+    query = "INSERT INTO saved_file (file_id, user_id) VALUES (%s, %s);"
+    Connect(query, (file_id, user_id), commit=True)
+
+def add_deleted_files(file_id, user_id):
+    query = "INSERT INTO deleted_file (file_id, user_id) VALUES (%s, %s);"
+    Connect(query, (file_id, user_id), commit=True)
+
+def get_total_files_count():
+    query = "SELECT COUNT(*) FROM total_file;"
     result = Connect(query, fetch=True)
     return result[0][0] if result else 0
 
-def add_saved_files():
-    query = "SELECT COUNT(*) FROM saved_files;"
+def get_saved_files_count():
+    query = "SELECT COUNT(*) FROM saved_file;"
     result = Connect(query, fetch=True)
     return result[0][0] if result else 0
 
-def add_deleted_files():
-    query = "SELECT COUNT(*) FROM deleted_files;"
+def get_deleted_files_count():
+    query = "SELECT COUNT(*) FROM deleted_file;"
     result = Connect(query, fetch=True)
     return result[0][0] if result else 0

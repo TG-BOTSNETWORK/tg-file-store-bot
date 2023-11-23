@@ -17,7 +17,7 @@ help_keyboard = InlineKeyboardMarkup([[InlineKeyboardButton("⇦Back", callback_
 
 @bot.on_message(filters.command("start") & filters.private)
 async def start(_, message: Message):
-    await add_user(message.from_user.id)
+    add_user(message.from_user.id)
     await message.reply_text(
         f"Hello {message.from_user.mention}\n\nI am a private files save bot. "
         "I can save private files on certain channels, and other users can access them from a special link.",

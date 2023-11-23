@@ -13,7 +13,7 @@ cls_keyboard = InlineKeyboardMarkup(
         )
 
 @bot.on_message("stats")
-def stats_command(client, message):
+def stats(client, message):
     if message.from_user.id == config.OWNER_ID:
         keyboard = InlineKeyboardMarkup(
             [

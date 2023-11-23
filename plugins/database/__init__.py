@@ -2,7 +2,7 @@ import psycopg2
 
 DATABASE_URL = "postgres://askmadhi:OHHUSsmc7WUshSsgXGkjqPN5_0PGUX3-@berry.db.elephantsql.com/askmadhi"
 
-def Connect(query, values=None, fetch=False):
+def connect(query, values=None, fetch=False):
     connection = psycopg2.connect(DATABASE_URL, sslmode='require')
     cursor = connection.cursor()
 
@@ -21,33 +21,40 @@ def Connect(query, values=None, fetch=False):
         cursor.close()
         connection.close()
 
-CREATE TABLE users (
+# Create tables if not exist
+create_users_table_query = """
+CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     user_id BIGINT UNIQUE NOT NULL
 );
+"""
 
-CREATE TABLE chats (
+create_chats_table_query = """
+CREATE TABLE IF NOT EXISTS chats (
     id SERIAL PRIMARY KEY,
     chat_id BIGINT UNIQUE NOT NULL
 );
+"""
 
+connect(create_users_table_query)
+connect(create_chats_table_query)
 
 def add_user(user_id):
     query = "INSERT INTO users (user_id) VALUES (%s) ON CONFLICT DO NOTHING RETURNING id;"
-    result = Connect(query, (user_id,), fetch=True)
+    result = connect(query, (user_id,), fetch=True)
     return result[0][0] if result else None
 
 def add_chat(chat_id):
     query = "INSERT INTO chats (chat_id) VALUES (%s) ON CONFLICT DO NOTHING RETURNING id;"
-    result = Connect(query, (chat_id,), fetch=True)
+    result = connect(query, (chat_id,), fetch=True)
     return result[0][0] if result else None
 
 def get_users():
     query = "SELECT COUNT(user_id) FROM users;"
-    result = Connect(query, fetch=True)
+    result = connect(query, fetch=True)
     return result[0][0] if result else 0
 
 def get_chats():
     query = "SELECT COUNT(chat_id) FROM chats;"
-    result = Connect(query, fetch=True)
+    result = connect(query, fetch=True)
     return result[0][0] if result else 0

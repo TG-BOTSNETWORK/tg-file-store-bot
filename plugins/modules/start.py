@@ -2,6 +2,7 @@ from pyrogram import filters, Client
 from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
 from pyrogram.errors.exceptions import UserNotParticipant
 from plugins import bot
+from plugins.database import add_user
 
 start_keyboard = InlineKeyboardMarkup([[
     InlineKeyboardButton("Help", callback_data="help"),
@@ -16,6 +17,7 @@ help_keyboard = InlineKeyboardMarkup([[InlineKeyboardButton("⇦Back", callback_
 
 @bot.on_message(filters.command("start") & filters.private)
 async def start(_, message: Message):
+    await add_user(message.from_user.id)
     await message.reply_text(
         f"Hello {message.from_user.mention}\n\nI am a private files save bot. "
         "I can save private files on certain channels, and other users can access them from a special link.",

@@ -22,7 +22,7 @@ PROTECT_CONTENT = True if os.environ.get('PROTECT_CONTENT', "False") == "True" e
 CUSTOM_CAPTION = os.environ.get("CUSTOM_CAPTION", None)
 
 @bot.on_message(filters.command("start") & filters.private)
-async def start_command(_, message: Message):
+async def start_command(client, message: Message):
     add_user(message.from_user.id)
     text = message.text
 

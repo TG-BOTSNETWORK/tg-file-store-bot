@@ -11,3 +11,4 @@ dnspython==2.3.0
 pymongo[srv]
 motor
 marshmallow
+psycopg2

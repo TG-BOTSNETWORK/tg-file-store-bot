@@ -33,15 +33,15 @@ Connect(create_deleted_files)
 
 def add_total_files(file_id, user_id):
     query = "INSERT INTO total_file (file_id, user_id) VALUES (%s, %s);"
-    Connect(query, (file_id, user_id), commit=True)
+    Connect(query, (file_id, user_id))
 
 def add_saved_files(file_id, user_id):
     query = "INSERT INTO saved_file (file_id, user_id) VALUES (%s, %s);"
-    Connect(query, (file_id, user_id), commit=True)
+    Connect(query, (file_id, user_id))
 
 def add_deleted_files(file_id, user_id):
     query = "INSERT INTO deleted_file (file_id, user_id) VALUES (%s, %s);"
-    Connect(query, (file_id, user_id), commit=True)
+    Connect(query, (file_id, user_id))
 
 def get_total_files_count():
     query = "SELECT COUNT(*) FROM total_file;"

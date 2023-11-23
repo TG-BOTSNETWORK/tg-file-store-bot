@@ -30,8 +30,7 @@ class config:
         if os.environ.get("CHANNEL_ID")
         else []
     )
-    DATABASE_NAME = os.environ.get("DATABASE_NAME", "Cluster0")
-    DATABASE_URL = os.environ.get("DATABASE_URL", "mongodb+srv://Amala203145:Amala2031456@cluster0.t9ibfge.mongodb.net/?retryWrites=true&w=majority")  
+    DATABASE_URL = os.environ.get("DATABASE_URL", "postgres://askmadhi:OHHUSsmc7WUshSsgXGkjqPN5_0PGUX3-@berry.db.elephantsql.com/askmadhi")  
     BOT_USERNAME = os.environ.get("BOT_USERNAME", "TgfileStoringBot")
     DB_CHANNEL = int(os.environ.get("DB_CHANNEL", "-1002119954783"))
     LOG_CHANNEL = int(os.environ.get('LOG_CHANNEL', "-1002119954783"))

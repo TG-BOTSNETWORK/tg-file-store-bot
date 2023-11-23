@@ -5,7 +5,7 @@ from plugins.database import add_user, add_chat, get_users, get_chats
 from plugins.database.premium import add_premium_user, get_premium_users, delete_premium_user
 
 
-@bot.on_command("stats", filters.private)
+@bot.on_message("stats", filters.private)
 def stats_command(client, message):
     if message.from_user.id == config.OWNER_ID:  
         total_users = get_users()

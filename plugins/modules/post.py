@@ -67,7 +67,7 @@ async def channel_post(client: Client, message: Message):
     if not DISABLE_CHANNEL_BUTTON:
         await post_message.edit_reply_markup(reply_markup)
 
-@bot.on_message(filters.channel & filters.incoming & filters.chat(CHANNEL_ID))
+@bot.on_message(filters.channel & filters.incoming & filters.chat(config.CHANNEL_ID))
 async def new_post(client: Client, message: Message):
     if DISABLE_CHANNEL_BUTTON:
         return

@@ -36,3 +36,4 @@ class config:
     LOG_CHANNEL = int(os.environ.get('LOG_CHANNEL', "-1002119954783"))
     FILE_STORE_CHANNEL = [int(ch) for ch in (os.environ.get('FILE_STORE_CHANNEL', '-1002119954783')).split()]
     PUBLIC_FILE_STORE = is_enabled(os.environ.get('PUBLIC_FILE_STORE', "True"), True)
+    BOT_WORKERS = int(os.environ.get("BOT_WORKERS", "4"))

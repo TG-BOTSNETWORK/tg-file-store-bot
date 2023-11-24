@@ -55,10 +55,17 @@ async def delpremiumuser(client: Client, message: Message):
     try:
         _, user_id, reason = message.text.split(" ", 2)
         user_id = int(user_id)
+
         premium_users = get_premium_users()
-        if user_id not in premium_users:
+
+        if isinstance(premium_users, int):
+            await message.reply_text("No premium users found.")
+            return
+
+        if user_id not in premium_users.keys():
             await message.reply_text(f"User {user_id} does not have premium membership.")
             return
+
         await client.send_message(user_id, f"Your premium membership has been revoked by bot owner.\n<b>Reason:</b> <code>{reason}</code>")
         delete_premium_user(user_id)
         await message.reply_text(f"User {user_id} deleted from premium users. Reason: {reason}")

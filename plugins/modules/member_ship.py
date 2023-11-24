@@ -40,15 +40,15 @@ async def check_premium_expiration(client: Client, message: Message):
 @bot.on_message(filters.command("getpremiumusers") & filters.user(config.OWNER_ID))
 async def getpremiumusers(client: Client, message: Message):
     try:
-        premium_users = get_premium_users_count()
-        if not premium_users:
+        premium_users_count = get_premium_users_count()
+        if premium_users_count == 0:
             await message.reply_text("No premium users found.")
         else:
-            users_text = "\n".join([f"{user_id}" for user_id in premium_users])
-            await message.reply_text(f"Premium Users:\n{users_text}")
+            await message.reply_text(f"Total Premium Users: {premium_users_count}")
     except Exception as e:
         print(e)
         await message.reply_text("Something went wrong.")
+
 
 @bot.on_message(filters.command("delpremiumuser") & filters.user(config.OWNER_ID))
 async def delpremiumuser(client: Client, message: Message):

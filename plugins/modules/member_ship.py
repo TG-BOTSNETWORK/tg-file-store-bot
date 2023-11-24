@@ -4,6 +4,8 @@ from datetime import datetime, timedelta
 from plugins.database.premium import add_premium_user, get_premium_users_count, delete_premium_user
 from Config import config
 from plugins import bot 
+import random 
+import string
 
 @bot.on_message(filters.command("addpremium") & filters.user(config.OWNER_ID))
 async def addpremium(client: Client, message: Message):

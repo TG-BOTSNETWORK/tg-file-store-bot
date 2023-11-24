@@ -8,15 +8,12 @@ from Config import config
 async def broadcast(client: Client, message: Message):
     try:
         text = message.text.split(" ", 1)[1]
-        media = None
-        if message.reply_to_message:
-            media = message.reply_to_message.media
 
         users = get_users()
 
         for user_id in users:
             try:
-                sent_message = await client.send_message(user_id, text, media=media)
+                sent_message = await client.send_message(user_id, text)
                 if "can_pin_messages" in sent_message.chat_permissions:
                     await client.pin_chat_message(user_id, sent_message.id)
                 print(f"Broadcast sent to user: {user_id}")

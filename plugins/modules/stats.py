@@ -30,11 +30,13 @@ async def see_full_stats(bot, callback_query):
         total_chats = get_chats()
         total_premium_users = get_premium_users_count()
         user_id = callback_query.message.from_user.id
+        deleted_premiums = delete_premium_user(user_id)
         stats_text = (
             f"<b>Total Users:</b> <code>{total_users}</code\n"
             f"<b>Total Chats:</b> <code>{total_chats}</code>\n"
             f"<b>Total Premium Users:</b> <code>{total_premium_users}</code>\n"
-            f"<b>Pyrogram Version:</b> <code>{__version__}</code>"
+            f"<b>Total Deleted Premiums:</b> <code>{deleted_premiums}</code>\n"
+            f"<b>Pyrogram Version:</b> <code>{__version__}</code>\n\n"
         )
         await callback_query.edit_message_text(stats_text, reply_markup=cls_keyboard)
     else:

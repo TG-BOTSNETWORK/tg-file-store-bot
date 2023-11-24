@@ -30,7 +30,7 @@ async def see_full_stats(bot, callback_query):
         total_chats = get_chats()
         total_premium_users = get_premium_users_count()
         user_id = callback_query.message.from_user.id
-        deleted_premiums = delete_premium_user(user_id)
+        deleted_premiums = delete_premium_user()
         stats_text = (
             f"<b>Total Users:</b> <code>{total_users}</code>\n"
             f"<b>Total Chats:</b> <code>{total_chats}</code>\n"

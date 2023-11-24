@@ -29,7 +29,7 @@ async def addpremium(client: Client, message: Message):
 
 async def check_premium_expiration(client: Client, message: Message):
     expiration_date = datetime.utcnow() + timedelta(days=2)    
-    premium_users = get_premium_users()    
+    premium_users = get_premium_users_count()    
     for user_id, expiration in premium_users.items():
         if expiration <= expiration_date:
             try:
@@ -40,7 +40,7 @@ async def check_premium_expiration(client: Client, message: Message):
 @bot.on_message(filters.command("getpremiumusers") & filters.user(config.OWNER_ID))
 async def getpremiumusers(client: Client, message: Message):
     try:
-        premium_users = get_premium_users()
+        premium_users = get_premium_users_count()
         if not premium_users:
             await message.reply_text("No premium users found.")
         else:
@@ -56,7 +56,7 @@ async def delpremiumuser(client: Client, message: Message):
         _, user_id, reason = message.text.split(" ", 2)
         user_id = int(user_id)
 
-        premium_users = get_premium_users()
+        premium_users = get_premium_users_count()
 
         if not premium_users:
             await message.reply_text("No premium users found.")

@@ -49,12 +49,6 @@ async def getpremiumusers(client: Client, message: Message):
         print(e)
         await message.reply_text("Something went wrong.")
 
-
-from pyrogram import Client, filters
-from pyrogram.types import Message
-from plugins.database.premium import get_premium_users, delete_premium_user
-from Config import config
-
 @bot.on_message(filters.command("delpremiumuser") & filters.user(config.OWNER_ID))
 async def delpremiumuser(client: Client, message: Message):
     try:

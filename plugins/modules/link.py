@@ -73,7 +73,7 @@ def get_readable_time(seconds: int) -> str:
     return up_time
 
 @bot.on_message(filters.private & filters.user(config.OWNER_ID) & filters.command('batch'))
-async def batch(client: Client, message: Message):
+async def batch(bot as client: Client, message: Message):
     while True:
         try:
             first_message = await client.ask(
@@ -117,7 +117,7 @@ async def batch(client: Client, message: Message):
     await second_message.reply_text(f"<b>Here is your link</b>\n\n{link}", quote=True, reply_markup=reply_markup)
 
 @bot.on_message(filters.private & filters.user(config.OWNER_ID) & filters.command('genlink'))
-async def link_generator(client: Client, message: Message):
+async def link_generator(bot as client: Client, message: Message):
     while True:
         try:
             channel_message = await client.ask(

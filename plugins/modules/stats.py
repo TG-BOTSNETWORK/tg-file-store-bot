@@ -3,7 +3,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQ
 from plugins import bot 
 from plugins.database import add_user, add_chat, get_users, get_chats
 from plugins.database.save_files_sql import add_total_files, add_deleted_files
-from plugins.database.premium import add_premium_user, get_premium_users_count, delete_premium_user
+from plugins.database.premium import add_premium_user, get_premium_users_count
 from Config import config
 
 cls_keyboard = InlineKeyboardMarkup(
@@ -29,7 +29,6 @@ async def see_full_stats(bot, callback_query):
         total_users = get_users()
         total_chats = get_chats()
         total_premium_users = get_premium_users_count()
-        user_id = callback_query.message.from_user.id
         stats_text = (
             f"<b>Total Users:</b> <code>{total_users}</code>\n"
             f"<b>Total Chats:</b> <code>{total_chats}</code>\n"

@@ -40,7 +40,7 @@ async def check_premium_expiration(client: Client, message: Message):
 @bot.on_message(filters.command("getpremiumusers") & filters.user(config.OWNER_ID))
 async def getpremiumusers(client: Client, message: Message):
     try:
-        premium_users = get_premium_users_count()
+        premium_users = get_premium_users()
         if not premium_users:
             await message.reply_text("No premium users found.")
         else:

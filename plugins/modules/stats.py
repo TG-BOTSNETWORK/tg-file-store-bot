@@ -29,7 +29,7 @@ def see_full_stats(bot, callback_query):
         total_users = get_users()
         total_chats = get_chats()
         total_premium_users = get_premium_users()
-        user_id = message.from_user.id
+        user_id = callback_query.message.from_user.id
         stats_text = (
             f"**Total Users:** `{total_users}`\n"
             f"**Total Chats:** `{total_chats}`\n"

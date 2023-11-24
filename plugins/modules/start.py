@@ -111,9 +111,9 @@ async def start_command(client, message: Message):
 @bot.on_callback_query(filters.regex("about"))
 async def about_callback(_, callback_query):
     await callback_query.edit_message_text(
-        text="<b><u>About</u></b>\n\n<b>➺Bot Name:</b>[TG FILE STORING BOT](t.me/Tgfilestoringbot)\n"
-             "<b>➺Language:</b>[python](https://python.org)\n<b>➺Library:</b>[pyrogram](https://pyrogram.org)\n"
-             "<b>➺Developed By:</b>[Nobitha](t.me/my_name_is_nobitha)",
+        text="<b><u>About</u></b>\n\n<b>➺Bot Name:</b> [TG FILE STORING BOT](t.me/Tgfilestoringbot)\n"
+             "<b>➺Language:</b> [python](https://python.org)\n<b>➺Library:</b> [pyrogram](https://pyrogram.org)\n"
+             "<b>➺Developed By:</b> [Nobitha](t.me/my_name_is_nobitha)",
         disable_web_page_preview=True,
         reply_markup=about_keyboard,
     )
@@ -133,13 +133,13 @@ async def help_callback(_, callback_query):
              "Commands:\n"
              "/start - Start using the bot\n"
              "/help - Display this help message\n"
-             "<u>**Admin commands**</u>\n"
+             "<u><b>Admin commands</b></u>\n"
              "/broadcast - Broadcast a message to all users\n"
              "/stats - Display bot statistics\n"
              "/batch - Perform batch operations\n"
              "/genlink - Generate a special link for a file\n"
              "/delfile - Delete saved special link from database\n\n"
-             "<u>**Note:**</u> if you want access admin commands by a premium membership",
+             "<u><b>Note:</b></u> if you want access admin commands by a premium membership",
         reply_markup=help_keyboard
     )
 
@@ -150,12 +150,12 @@ async def help(_, message: Message):
         "Commands:\n"
         "/start - Start using the bot\n"
         "/help - Display this help message\n"
-        "<u>**Admin commands**</u>\n"
+        "<u><b>Admin commands</b></u>\n"
         "/broadcast - Broadcast a message to all users\n"
         "/stats - Display bot statistics\n"
         "/batch - Perform batch operations\n"
         "/genlink - Generate a special link for a file\n"
         "/delfile - Delete saved special link from database\n\n"
-        "<u>**Note:**</u> if you want access admin commands by a premium membership",
+        "<u><b>Note:</b></u> if you want access admin commands by a premium membership",
         reply_markup=help_keyboard
     )

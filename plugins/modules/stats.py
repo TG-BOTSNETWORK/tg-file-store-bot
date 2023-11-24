@@ -3,7 +3,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQ
 from plugins import bot 
 from plugins.database import add_user, add_chat, get_users, get_chats
 from plugins.database.save_files_sql import add_total_files, add_deleted_files
-from plugins.database.premium import add_premium_user, get_premium_users, delete_premium_user
+from plugins.database.premium import add_premium_user, get_premium_users_count, delete_premium_user
 from Config import config
 
 cls_keyboard = InlineKeyboardMarkup(

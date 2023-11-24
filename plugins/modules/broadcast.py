@@ -13,6 +13,8 @@ async def broadcast(client: Client, message: Message):
             media = message.reply_to_message.media
         users = get_users()
         chats = get_chats()
+        users = users if isinstance(users, (list, set)) else []
+        chats = chats if isinstance(chats, (list, set)) else []
         for user_id in users:
             try:
                 sent_message = await client.send_message(user_id, text, media=media)
@@ -21,6 +23,7 @@ async def broadcast(client: Client, message: Message):
                 print(f"Broadcast sent to user: {user_id}")
             except Exception as e:
                 print(f"Failed to send broadcast to user {user_id}: {e}")
+
         for chat_id in chats:
             try:
                 sent_message = await client.send_message(chat_id, text, media=media)
@@ -36,6 +39,3 @@ async def broadcast(client: Client, message: Message):
     except Exception as e:
         print(e)
         await message.reply_text("Something went wrong.")
-
-if __name__ == "__main__":
-    app.run()

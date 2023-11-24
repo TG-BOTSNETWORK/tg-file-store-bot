@@ -30,18 +30,12 @@ async def see_full_stats(bot, callback_query):
         total_chats = get_chats()
         total_premium_users = get_premium_users()
         user_id = callback_query.message.from_user.id
-        total_uploaded_files = add_total_files(user_id)
-        total_deleted_files = add_deleted_files(user_id)
-
         stats_text = (
             f"**Total Users:** `{total_users}`\n"
             f"**Total Chats:** `{total_chats}`\n"
             f"**Total Premium Users:** `{total_premium_users}`\n"
-            f"**Total Uploaded Files:** `{total_uploaded_files}`\n"
-            f"**Total Deleted Files:** `{total_deleted_files}`\n"
             f"**Pyrogram Version:** `{__version__}`"
         )
-
         await callback_query.edit_message_text(stats_text, reply_markup=cls_keyboard)
     else:
         await callback_query.answer("You are not authorized to use this button.", show_alert=True)

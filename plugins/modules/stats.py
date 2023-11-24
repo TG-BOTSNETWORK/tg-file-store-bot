@@ -24,21 +24,24 @@ def stats(bot, message):
         message.reply_text("You are not authorized to use this command.")
 
 @bot.on_callback_query(filters.regex("see_full_stats"))
-def see_full_stats(bot, callback_query):
+async def see_full_stats(bot, callback_query):
     if callback_query.from_user.id == config.OWNER_ID:
         total_users = get_users()
         total_chats = get_chats()
         total_premium_users = get_premium_users()
         user_id = callback_query.message.from_user.id
+        total_uploaded_files = get_total_files(user_id)
+        total_deleted_files = get_deleted_files(user_id)
+
         stats_text = (
             f"**Total Users:** `{total_users}`\n"
             f"**Total Chats:** `{total_chats}`\n"
             f"**Total Premium Users:** `{total_premium_users}`\n"
-            f"** Total Uploaded Files:** `{add_total_files(user_id)}`\n"
-            f"**Deleted Files:** `{add_deleted_files(user_id)}`\n"
+            f"**Total Uploaded Files:** `{total_uploaded_files}`\n"
+            f"**Total Deleted Files:** `{total_deleted_files}`\n"
             f"**Pyrogram Version:** `{__version__}`"
         )
 
-        callback_query.edit_message_text(stats_text, reply_markup=cls_keyboard)
+        await callback_query.edit_message_text(stats_text, reply_markup=cls_keyboard)
     else:
-        callback_query.answer("You are not authorized to use this button.", show_alert=True)
+        await callback_query.answer("You are not authorized to use this button.", show_alert=True)

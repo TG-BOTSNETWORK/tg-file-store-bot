@@ -13,6 +13,10 @@ import asyncio
 start_keyboard = InlineKeyboardMarkup([[
     InlineKeyboardButton("Help", callback_data="help"),
     InlineKeyboardButton("About", callback_data="about")
+    ],[
+    InlineKeyboardButton("Db Channel", url="t.me/tgfilestoring"),
+    ],[
+    InlineKeyboardButton("Updates Channel", url="t.me/TgBotsNetwork")
 ]])
 
 about_keyboard = InlineKeyboardMarkup([[

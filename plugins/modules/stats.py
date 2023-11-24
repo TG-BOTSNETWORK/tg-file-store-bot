@@ -34,8 +34,8 @@ def see_full_stats(bot, callback_query):
             f"**Total Users:** `{total_users}`\n"
             f"**Total Chats:** `{total_chats}`\n"
             f"**Total Premium Users:** `{total_premium_users}`\n"
-            f"** Total Uploaded Files:** `{add_total_files()}`\n"
-            f"**Deleted Files:** `{add_deleted_files()}`\n"
+            f"** Total Uploaded Files:** `{add_total_files(link, user_id)}`\n"
+            f"**Deleted Files:** `{add_deleted_files(link, user_id)}`\n"
             f"**Pyrogram Version:** `{__version__}`"
         )
 

@@ -2,7 +2,7 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 from plugins.database import get_users, get_chats
 from plugins import bot as app
-
+from Config import config
 
 @app.on_message(filters.command("broadcast") & filters.user(config.OWNER_ID))
 async def broadcast(client: Client, message: Message):

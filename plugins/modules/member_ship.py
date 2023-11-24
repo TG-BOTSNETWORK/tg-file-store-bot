@@ -66,3 +66,53 @@ async def delpremiumuser(client: Client, message: Message):
     except Exception as e:
         print(e)
         await message.reply_text("Something went wrong.")
+
+@bot.on_message(filters.command("redeemcode") & filters.user(config.OWNER_ID))
+async def redeemcode(client: Client, message: Message):
+    try:
+        _, duration, limit = message.text.split(" ", 2)
+        limit = int(limit)
+        code_id = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
+        expiration_date = datetime.utcnow() + timedelta(days=int(duration))
+        # Save the redeem code and limit in your database
+        save_redeem_code(f"TG_FILE_STORE_{code_id}", expiration_date, limit)
+        await message.reply_text(f"Redeem code generated: <code>TG_FILE_STORE_{code_id}</code>\n"
+                                  f"Expires: {expiration_date}\n"
+                                  f"Limit: {limit}")
+    except ValueError:
+        await message.reply_text("Invalid command format. Use /redeemcode duration limit.")
+    except Exception as e:
+        print(e)
+        await message.reply_text("Something went wrong.")
+
+@bot.on_message(filters.command("redeem") & filters.private)
+async def redeem(client: Client, message: Message):
+    try:
+        _, code = message.text.split(" ", 1)
+        user_id = message.from_user.id
+        if is_valid_redeem_code(code) and not has_exceeded_limit(code):
+            add_premium_user(user_id, get_redeem_code_expiration(code))
+            increment_redeem_code_usage(code)
+            await message.reply_text("Congratulations! You have redeemed a premium code to access premium contact @my_names_is_nobitha with redemed screen shot.")
+        else:
+            await message.reply_text("Invalid or expired redeem code.")
+    except ValueError:
+        await message.reply_text("Invalid command format. Use /redeem code.")
+    except Exception as e:
+        print(e)
+        await message.reply_text("Something went wrong.")
+
+def save_redeem_code(code, expiration_date, limit):
+    pass
+
+def is_valid_redeem_code(code):
+    pass
+
+def has_exceeded_limit(code):
+    pass
+
+def get_redeem_code_expiration(code):
+    pass
+
+def increment_redeem_code_usage(code):
+    pass

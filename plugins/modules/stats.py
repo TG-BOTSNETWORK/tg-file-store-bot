@@ -30,8 +30,8 @@ async def see_full_stats(bot, callback_query):
         total_chats = get_chats()
         total_premium_users = get_premium_users()
         user_id = callback_query.message.from_user.id
-        total_uploaded_files = get_total_files(user_id)
-        total_deleted_files = get_deleted_files(user_id)
+        total_uploaded_files = add_total_files(user_id)
+        total_deleted_files = add_deleted_files(user_id)
 
         stats_text = (
             f"**Total Users:** `{total_users}`\n"

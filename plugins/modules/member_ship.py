@@ -58,11 +58,11 @@ async def delpremiumuser(client: Client, message: Message):
 
         premium_users = get_premium_users()
 
-        if isinstance(premium_users, int):
+        if not premium_users:
             await message.reply_text("No premium users found.")
             return
 
-        if user_id not in premium_users.keys():
+        if user_id not in premium_users:
             await message.reply_text(f"User {user_id} does not have premium membership.")
             return
 

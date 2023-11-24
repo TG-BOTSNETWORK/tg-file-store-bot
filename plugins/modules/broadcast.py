@@ -1,6 +1,6 @@
 from pyrogram import Client, filters
 from pyrogram.types import Message
-from plugins.database import get_users, get_chats
+from plugins.database import get_users
 from plugins import bot as app
 from Config import config
 
@@ -11,10 +11,9 @@ async def broadcast(client: Client, message: Message):
         media = None
         if message.reply_to_message:
             media = message.reply_to_message.media
+
         users = get_users()
-        chats = get_chats()
-        users = users if isinstance(users, (list, set)) else []
-        chats = chats if isinstance(chats, (list, set)) else []
+
         for user_id in users:
             try:
                 sent_message = await client.send_message(user_id, text, media=media)
@@ -24,16 +23,7 @@ async def broadcast(client: Client, message: Message):
             except Exception as e:
                 print(f"Failed to send broadcast to user {user_id}: {e}")
 
-        for chat_id in chats:
-            try:
-                sent_message = await client.send_message(chat_id, text, media=media)
-                if "can_pin_messages" in sent_message.chat_permissions:
-                    await client.pin_chat_message(chat_id, sent_message.id)
-                print(f"Broadcast sent to chat: {chat_id}")
-            except Exception as e:
-                print(f"Failed to send broadcast to chat {chat_id}: {e}")
-
-        await message.reply_text(f"Broadcast sent to {len(users)} users and {len(chats)} chats.")
+        await message.reply_text(f"Broadcast sent to {len(users)} users.")
     except IndexError:
         await message.reply_text("Invalid command format. Use /broadcast message.")
     except Exception as e:

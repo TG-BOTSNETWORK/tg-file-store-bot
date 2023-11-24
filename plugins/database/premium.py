@@ -14,10 +14,9 @@ def add_premium_user(user_id):
     Connect(query, (user_id,))
 
 def get_premium_users():
-    query = "SELECT user_id, expiration_date FROM premium_users;"
+    query = "SELECT user_id FROM premium_users;"
     result = Connect(query, fetch=True)
-    return {user_id: expiration_date for user_id, expiration_date in result} if result else {}
-
+    return [user_id for user_id, in result] if result else []
 
 def delete_premium_user(user_id):
     query = "DELETE FROM premium_users WHERE user_id = %s;"

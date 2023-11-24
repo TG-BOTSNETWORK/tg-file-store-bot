@@ -12,7 +12,7 @@ cls_keyboard = InlineKeyboardMarkup(
 
 @bot.on_message(filters.command("stats"))
 def stats(bot, message):
-    if message.from_user.id == config.SUDO_USERS:
+    if message.from_user.id == config.OWNER_ID:
         keyboard = InlineKeyboardMarkup(
             [[InlineKeyboardButton("See Full Stats", callback_data="see_full_stats")]]
         )

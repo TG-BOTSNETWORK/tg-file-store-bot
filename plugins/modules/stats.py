@@ -28,7 +28,7 @@ async def see_full_stats(bot, callback_query):
     if callback_query.from_user.id == config.OWNER_ID:
         total_users = get_users()
         total_chats = get_chats()
-        total_premium_users = get_premium_users()
+        total_premium_users = get_premium_users_count()
         user_id = callback_query.message.from_user.id
         stats_text = (
             f"<b>Total Users:</b> <code>{total_users}</code\n"

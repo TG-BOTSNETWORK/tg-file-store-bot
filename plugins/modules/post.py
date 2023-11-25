@@ -22,7 +22,7 @@ async def encode(string):
     base64_string = base64_bytes.decode("ascii")
     return base64_string
 
-@bot.on_message(filters.private & filters.user(config.OWNER_ID) & ~filters.command(['start', 'broadcast', 'batch', 'genlink', 'stats']))
+@bot.on_message(filters.private & ~filters.command(['start', 'broadcast', 'batch', 'genlink', 'stats']))
 async def channel_post(client: Client, message: Message):
     reply_text = await message.reply_text("Please wait, your special link is generating...", quote=True)
     await reply_text.edit_text("Making a file id...")

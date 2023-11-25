@@ -22,23 +22,23 @@ def get_user_info(user: User):
 @app.on_message(filters.command("info"))
 async def info_command(client: Client, message: Message):
     try:
-        await message.edit_text("Searching user ID...")
+        msg = await message.edit_text("Searching user ID...")
         user_id = int(message.text.split(" ", 1)[1]) if len(message.text.split(" ", 1)) > 1 else None
         if user_id:
-            await message.edit_text("Getting user info...")
+            await msg.edit_text("Getting user info...")
             user = await client.get_users(user_id)
             user_info = get_user_info(user)
             profile_pic = await client.download_media(user.photo.big_file_id) if user.photo else None
-            await message.edit_text("Uploading user info...")
-            reply_message = await message.reply_photo(photo=profile_pic, caption=user_info, parse_mode=ParseMode.HTML)
+            await msg.edit_text("Uploading user info...")
+            reply_message = await msg.reply_photo(photo=profile_pic, caption=user_info, parse_mode=ParseMode.HTML)
             if profile_pic:
                 os.remove(profile_pic)
         else:
-            await message.edit_text("Getting user info...")
+            await msg.edit_text("Getting user info...")
             user_info = get_user_info(message.from_user)
             profile_pic = await client.download_media(message.from_user.photo.big_file_id) if message.from_user.photo else None
-            await message.edit_text("Uploading user info...")
-            reply_message = await message.reply_photo(photo=profile_pic, caption=user_info, parse_mode=ParseMode.HTML)
+            await msg.edit_text("Uploading user info...")
+            reply_message = await msg.reply_photo(photo=profile_pic, caption=user_info, parse_mode=ParseMode.HTML)
             if profile_pic:
                 os.remove(profile_pic)
 

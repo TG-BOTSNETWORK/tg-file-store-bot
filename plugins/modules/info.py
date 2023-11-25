@@ -43,11 +43,12 @@ async def info_command(client: Client, message: Message):
                 os.remove(profile_pic)
 
         # Check if the original message is still available before attempting to edit
-        if message.id:
+        if message.chat and message.id:
             try:
                 await message.delete()  # Delete the original "Searching user ID..." message
             except Exception as delete_error:
                 print(f"Error deleting message: {delete_error}")
+
     except ValueError:
         await message.reply_text("Invalid user ID. Please provide a valid numerical user ID.")
     except Exception as e:

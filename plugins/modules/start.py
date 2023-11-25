@@ -114,7 +114,7 @@ async def about_callback(_, callback_query):
              "<b>➺Language:</b> <a href='https://python.org'>python</a>\n"
              "<b>➺Library:</b> <a href='https://pyrogram.org'>pyrogram</a>\n"
              "<b>➺Developed By:</b> <a href='http://t.me/my_name_is_nobitha'>Nobitha</a>",
-        parse_mode="html",
+        parse_mode=ParseMode.HTML,
         disable_web_page_preview=True,
         reply_markup=about_keyboard,
     )

@@ -48,9 +48,17 @@ def add_chat(chat_id):
     return result[0][0] if result else None
 
 def get_users():
-    query = "SELECT user_id FROM users;"
-    result = Connect(query, fetch=True)
-    return [int(user_id) for user_id, in result] if result else []
+    try:
+        query = "SELECT user_id FROM users;"
+        result = Connect(query, fetch=True)
+        if result is not None:
+            user_ids = [user_id for user_id, in result]
+            return user_ids
+        else:
+            return []
+    except Exception as e:
+        print(f"Error in get_users: {e}")
+        return []
 
 def get_chats():
     query = "SELECT COUNT(chat_id) FROM chats;"

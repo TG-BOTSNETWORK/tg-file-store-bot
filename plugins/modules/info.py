@@ -15,7 +15,7 @@ def get_user_info(user: User):
         f"<b>Is Premium:</b> {'Yes' if user.is_premium else 'No'}\n"
         f"<b>Last Seen:</b> {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
     )
-    if user.phone_number:
+    if hasattr(user, 'phone_number') and user.phone_number:
         user_info += f"<b>Phone Number:</b> {user.phone_number}\n"
     return user_info
 

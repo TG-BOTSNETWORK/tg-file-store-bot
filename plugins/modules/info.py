@@ -43,7 +43,7 @@ async def info_command(client: Client, message: Message):
                 os.remove(profile_pic)
 
         # Check if the original message is still available before attempting to edit
-        if reply_message.message_id:
+        if message.id:
             try:
                 await message.delete()  # Delete the original "Searching user ID..." message
             except Exception as delete_error:

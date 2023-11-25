@@ -44,7 +44,10 @@ async def info_command(client: Client, message: Message):
 
         # Check if the original message is still available before attempting to edit
         if reply_message.message_id:
-            await message.delete()  # Delete the original "Searching user ID..." message
+            try:
+                await message.delete()  # Delete the original "Searching user ID..." message
+            except Exception as delete_error:
+                print(f"Error deleting message: {delete_error}")
     except ValueError:
         await message.reply_text("Invalid user ID. Please provide a valid numerical user ID.")
     except Exception as e:

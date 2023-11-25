@@ -105,15 +105,16 @@ async def start_command(client, message: Message):
             "I can save private files on certain channels, and other users can access them from a special link.",
             reply_markup=start_keyboard
         )
-
-
-
+        
 @bot.on_callback_query(filters.regex("about"))
 async def about_callback(_, callback_query):
     await callback_query.edit_message_text(
-        text="<b><u>About</u></b>\n\n<b>➺Bot Name:</b> [TG FILE STORING BOT](t.me/Tgfilestoringbot)\n"
-             "<b>➺Language:</b> [python](https://python.org)\n<b>➺Library:</b> [pyrogram](https://pyrogram.org)\n"
-             "<b>➺Developed By:</b> [Nobitha](t.me/my_name_is_nobitha)",
+        text="<b><u>About</u></b>\n\n"
+             "<b>➺Bot Name:</b> <a href='http://t.me/Tgfilestoringbot'>TG FILE STORING BOT</a>\n"
+             "<b>➺Language:</b> <a href='https://python.org'>python</a>\n"
+             "<b>➺Library:</b> <a href='https://pyrogram.org'>pyrogram</a>\n"
+             "<b>➺Developed By:</b> <a href='http://t.me/my_name_is_nobitha'>Nobitha</a>",
+        parse_mode="html",
         disable_web_page_preview=True,
         reply_markup=about_keyboard,
     )
@@ -129,7 +130,7 @@ async def start_callback(_, callback_query):
 @bot.on_callback_query(filters.regex("help"))
 async def help_callback(_, callback_query):
     await callback_query.edit_message_text(
-        text="Welcome to [TG FILE STORING BOT!](t.me/Tgfilestoringbot) Send any type of media, and I'll generate a special link for you.\n\n"
+        text="Welcome to <a href='http://t.me/Tgfilestoringbot'>TG FILE STORING BOT</a> Send any type of media, and I'll generate a special link for you.\n\n"
              "Commands:\n"
              "/start - Start using the bot\n"
              "/help - Display this help message\n"

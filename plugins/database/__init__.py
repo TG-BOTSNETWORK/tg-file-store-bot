@@ -50,7 +50,7 @@ def add_chat(chat_id):
 def get_users():
     query = "SELECT user_id FROM users;"
     result = Connect(query, fetch=True)
-    return [user_id for user_id, in result] if result else []
+    return [int(user_id) for user_id, in result] if result else []
 
 def get_chats():
     query = "SELECT COUNT(chat_id) FROM chats;"

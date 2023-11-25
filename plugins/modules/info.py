@@ -28,7 +28,7 @@ async def info_command(client: Client, message: Message):
             user = await client.get_users(user_id)
             user_info = get_user_info(user)
             profile_pic = await client.download_media(user.photo.big_file_id) if user.photo else None
-            await message.reply_photo(photo=profile_pic, caption=user_info, parse_mode='html')
+            await message.reply_photo(photo=profile_pic, caption=user_info, parse_mode=ParseMode.HTML)
             if profile_pic:
                 os.remove(profile_pic)
         else:

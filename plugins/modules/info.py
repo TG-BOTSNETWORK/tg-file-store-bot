@@ -32,7 +32,7 @@ async def info_command(client: Client, message: Message):
                 os.remove(profile_pic)
         else:
             user_info = get_user_info(message.from_user)
-            await message.reply_text(user_info, parse_mode='html')
+            await message.reply_text(user_info, parse_mode=ParseMode.HTML)
     except Exception as e:
         print(e)
         await message.reply_text("Something went wrong.")

@@ -9,13 +9,13 @@ from pyrogram.enums import ParseMode
 
 def get_user_info(user: User):
     user_info = (
-        f"<b>➲Mention:</b> {user.mention}\n"
-        f"<b>➲Username:</b> @{user.username}\n"
-        f"<b>➲ID:</b> <code>{user.id}</code>\n"
-        f"<b>➲Profile Link:</b> <a href='tg://user?id={user.id}'><b>Click Here</b></a>\n"
-        f"<b>➲Is Scam:</b> {'Yes' if user.is_scam else 'No'}\n"
-        f"<b>➲Is Premium:</b> {'Yes' if user.is_premium else 'No'}\n"
-        f"<b>➲Last Seen:</b> {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
+        f"<b>Mention:</b> {user.mention}\n"
+        f"<b>Username:</b> @{user.username}\n"
+        f"<b>ID:</b> <code>{user.id}</code>\n"
+        f"<b>Profile Link:</b> <a href='tg://user?id={user.id}'><b>Click Here</b></a>\n"
+        f"<b>Is Scam:</b> {'Yes' if user.is_scam else 'No'}\n"
+        f"<b>Is Premium:</b> {'Yes' if user.is_premium else 'No'}\n"
+        f"<b>Last Seen:</b> {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
     )
     return user_info
 
@@ -32,7 +32,7 @@ async def info_command(client: Client, message: Message):
                 os.remove(profile_pic)
         else:
             user_info = get_user_info(message.from_user)
-            await message.reply_text(user_info, parse_mode=ParseMode.HTML)
+            await message.reply_photo(photo=profike_pic, caption=user_info, parse_mode=ParseMode.HTML)
     except Exception as e:
         print(e)
         await message.reply_text("Something went wrong.")

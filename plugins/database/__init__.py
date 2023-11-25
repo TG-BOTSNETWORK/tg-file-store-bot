@@ -45,7 +45,7 @@ def add_user(user_id):
 def add_chat(chat_id):
     query = "INSERT INTO chats (chat_id) VALUES (%s) ON CONFLICT DO NOTHING RETURNING id;"
     result = Connect(query, (chat_id,), fetch=True)
-    return result[0][0] if result else 0
+    return result[0][0] if result else None
 
 def get_users():
     query = "SELECT user_id FROM users;"

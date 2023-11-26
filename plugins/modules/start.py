@@ -145,7 +145,7 @@ async def help_callback(_, callback_query):
     )
 
 @bot.on_message(filters.command("help") & filters.private)
-async def help(_, message: Message):
+async def help(bot, message: Message):
     await message.reply_text(
         "Welcome to <a href='http://t.me/Tgfilestoringbot'>TG FILE STORING BOT</a> Send any type of media, and I'll generate a special link for you.\n\n"
         "Commands:\n"

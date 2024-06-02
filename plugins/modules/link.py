@@ -81,49 +81,28 @@ def get_readable_time(seconds: int) -> str:
             up_time += ":"
     return up_time
 
-@bot.on_message(filters.private & filters.user(config.OWNER_ID) & filters.command('batch'))
-async def batch(bot, message: Message):
-    while True:
-        try:
-            first_message = await bot.ask(
-                text="Reply to the first message of the album or multiple files in DB Channel..",
-                chat_id=message.from_user.id,
-                filters=(filters.reply & ~filters.forwarded),
-                timeout=60
-            )
-        except:
-            return
+@bot.on_message(filters.command("batch") & filters.private)
+async def batch_handler(client, message):
+    if not message.reply_to_message or not message.reply_to_message.media_group_id:
+        await message.reply("Please reply to a media group (album) or multiple files.")
+        return
 
-        f_msg_id = await get_message_id(bot, first_message)
-        if f_msg_id:
-            break
-        else:
-            await first_message.reply("❌ Error\n\nThis message is not from my DB Channel or this link is invalid.", quote=True)
-            continue
+    media_group_id = message.reply_to_message.media_group_id
+    media_messages = await client.get_media_group(message.chat.id, media_group_id)
 
-    while True:
-        try:
-            second_message = await bot.ask(
-                text="Reply to the last message of the album or multiple files in DB Channel..",
-                chat_id=message.from_user.id,
-                filters=(filters.reply & ~filters.forwarded),
-                timeout=60
-            )
-        except:
-            return
+    links = []
+    for idx, media_msg in enumerate(media_messages):
+        f_msg_id = media_msg.message_id
+        s_msg_id = media_msg.message_id
+        tring = f"get-{f_msg_id * abs(client.db_channel.id)}-{s_msg_id * abs(client.db_channel.id)}"
+        base64_string = await encode(tring)
+        link = f"https://t.me/{client.username}?start={base64_string if 'littlehimeko_' in base64_string else 'littlehimeko_' + base64_string}"
+        reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton("🔁 Share URL", url=f'https://telegram.me/share/url?url={link}')]])
+        await media_msg.reply_text(f"<b>Here is your link</b>\n\n{link}", quote=True, reply_markup=reply_markup)
+        links.append(link)
 
-        s_msg_id = await get_message_id(bot, second_message)
-        if s_msg_id:
-            break
-        else:
-            await second_message.reply("❌ Error\n\nThis message is not from my DB Channel or this link is invalid.", quote=True)
-            continue
-
-    string = f"get-{f_msg_id * abs(bot.db_channel.id)}-{s_msg_id * abs(bot.db_channel.id)}"
-    base64_string = await encode(string)
-    link = f"https://t.me/{bot.username}?start={base64_string if 'littlehimeko_' in base64_string else 'littlehimeko_' + base64_string}"
-    reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton("🔁 Share URL", url=f'https://telegram.me/share/url?url={link}')]])
-    await second_message.reply_text(f"<b>Here is your link</b>\n\n{link}", quote=True, reply_markup=reply_markup)
+    # Optionally, send a summary message with all links
+    await message.reply_text("\n\n".join(links), quote=True)
 
 @bot.on_message(filters.private & filters.user(config.OWNER_ID) & filters.command('genlink'))
 async def link_generator(bot, message: Message):

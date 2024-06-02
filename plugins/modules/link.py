@@ -91,12 +91,12 @@ async def batch_handler(client, message):
     media_messages = await client.get_media_group(message.chat.id, media_group_id)
 
     links = []
-    for idx, media_msg in enumerate(media_messages):
+    for media_msg in media_messages:
         f_msg_id = media_msg.message_id
         s_msg_id = media_msg.message_id
-        tring = f"get-{f_msg_id * abs(client.db_channel.id)}-{s_msg_id * abs(client.db_channel.id)}"
+        tring = f"get-{abs(f_msg_id)}-{abs(s_msg_id)}"
         base64_string = await encode(tring)
-        link = f"https://t.me/{client.username}?start={base64_string if 'littlehimeko_' in base64_string else 'littlehimeko_' + base64_string}"
+        link = f"https://t.me/{client.me.username}?start={base64_string if 'littlehimeko_' in base64_string else 'littlehimeko_' + base64_string}"
         reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton("🔁 Share URL", url=f'https://telegram.me/share/url?url={link}')]])
         await media_msg.reply_text(f"<b>Here is your link</b>\n\n{link}", quote=True, reply_markup=reply_markup)
         links.append(link)

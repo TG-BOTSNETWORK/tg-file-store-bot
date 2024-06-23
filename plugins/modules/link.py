@@ -1,11 +1,61 @@
-import asyncio
-import re
 from pyrogram import Client, filters
-from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
-from plugins import bot
+from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto, InputMediaVideo
 from Config import config
 from plugins.modules.post import encode
 from pyrogram.errors import FloodWait
+import asyncio
+import re
+
+@Client.on_message(filters.user(config.OWNER_ID) & filters.command("batch") & filters.reply)
+async def batch(bot: Client, message: Message):
+    if not message.reply_to_message or not message.reply_to_message.media_group_id:
+        await message.reply("Please reply to a media album.")
+        return
+    media_group_id = message.reply_to_message.media_group_id
+    media_album = await bot.get_media_group(
+        chat_id=message.chat.id, 
+        message_id=message.reply_to_message.id
+    )  
+    editable = await message.reply("Processing your request...")
+
+    try:
+        sent_album = await forward_media_group(bot, media_album, editable)
+    except Exception as e:
+        await editable.edit(f"Failed to forward media album: {e}")
+        return
+
+    if not sent_album:
+        await editable.edit("Failed to forward the media album.")
+        return
+    post_message = sent_album[0]
+    media_ids = [msg.id for msg in sent_album]
+    media_ids_str = "-".join(map(str, media_ids))
+    converted_id = post_message.id * abs(bot.db_channel.id)
+    string = f"get-{converted_id}-{media_ids_str}"
+    base64_string = await encode(string)
+    link = f"https://t.me/{bot.username}?start={base64_string if 'Tgfilestore_' in base64_string else 'Tgfilestore_' + base64_string}"
+    await editable.edit(
+        f"Here is your album link: {link}",
+        reply_markup=InlineKeyboardMarkup(
+            [[InlineKeyboardButton("Open Album", url=link)]]
+        ),
+        disable_web_page_preview=True
+    )
+
+async def forward_media_group(bot: Client, media_album, editable: Message):
+    try:
+        if all(media.photo for media in media_album):
+            media_inputs = [InputMediaPhoto(media.photo.file_id, caption=(media.caption if media == media_album[0] else "")) for media in media_album]
+        elif all(media.video for media in media_album):
+            media_inputs = [InputMediaVideo(media.video.file_id, caption=(media.caption if media == media_album[0] else "")) for media in media_album]
+        else:
+            raise ValueError("Mixed media types in the album are not supported")
+
+        sent_album = await bot.send_media_group(chat_id=config.DB_CHANNEL, media=media_inputs)
+        return sent_album
+    except Exception as e:
+        await editable.edit(f"Failed to forward media group: {e}")
+        return None
 
 async def get_messages(client, message_ids):
     messages = []
@@ -23,8 +73,9 @@ async def get_messages(client, message_ids):
                 chat_id=client.db_channel.id,
                 message_ids=temp_ids
             )
-        except:
-            pass
+        except Exception as e:
+            print(f"Error while fetching messages: {e}")
+            break
         total_messages += len(temp_ids)
         messages.extend(msgs)
     return messages
@@ -80,51 +131,3 @@ def get_readable_time(seconds: int) -> str:
         if i < len(time_list) - 1:
             up_time += ":"
     return up_time
-
-@bot.on_message(filters.command("batch") & filters.private)
-async def batch_handler(client, message):
-    if not message.reply_to_message or not message.reply_to_message.media_group_id:
-        await message.reply("Please reply to a media group (album) or multiple files.")
-        return
-
-    media_group_id = message.reply_to_message.media_group_id
-    media_messages = await client.get_media_group(message.chat.id, media_group_id)
-
-    links = []
-    for media_msg in media_messages:
-        f_msg_id = media_msg.message_id
-        s_msg_id = media_msg.message_id
-        tring = f"get-{abs(f_msg_id)}-{abs(s_msg_id)}"
-        base64_string = await encode(tring)
-        link = f"https://t.me/{client.me.username}?start={base64_string if 'littlehimeko_' in base64_string else 'littlehimeko_' + base64_string}"
-        reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton("🔁 Share URL", url=f'https://telegram.me/share/url?url={link}')]])
-        await media_msg.reply_text(f"<b>Here is your link</b>\n\n{link}", quote=True, reply_markup=reply_markup)
-        links.append(link)
-
-    # Optionally, send a summary message with all links
-    await message.reply_text("\n\n".join(links), quote=True)
-
-@bot.on_message(filters.private & filters.user(config.OWNER_ID) & filters.command('genlink'))
-async def link_generator(bot, message: Message):
-    while True:
-        try:
-            channel_message = await bot.ask(
-                text="Reply to the message of the album or multiple files in DB Channel..",
-                chat_id=message.from_user.id,
-                filters=(filters.reply & ~filters.forwarded),
-                timeout=60
-            )
-        except:
-            return
-
-        msg_id = await get_message_id(bot, channel_message)
-        if msg_id:
-            break
-        else:
-            await channel_message.reply("❌ Error\n\nThis message is not from my DB Channel or this link is invalid.", quote=True)
-            continue
-
-    base64_string = await encode(f"get-{msg_id * abs(bot.db_channel.id)}")
-    link = f"https://t.me/{bot.username}?start={base64_string if 'littlehimeko_' in base64_string else 'littlehimeko_' + base64_string}"
-    reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton("🔁 Share URL", url=f'https://telegram.me/share/url?url={link}')]])
-    await channel_message.reply_text(f"<b>Here is your link</b>\n\n{link}", quote=True, reply_markup=reply_markup)

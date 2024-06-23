@@ -72,23 +72,23 @@ async def delpremiumuser(client: Client, message: Message):
         await message.reply_text("Something went wrong.")
         
 ##############################################  Soon ###################################################################
-#@bot.on_message(filters.command("redeemcode") & filters.user(config.OWNER_ID))
-#async def redeemcode(client: Client, message: Message):
-#    try:
-#        _, duration, limit = message.text.split(" ", 2)
-#        limit = int(limit)
-#        code_id = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
-#        expiration_date = datetime.utcnow() + timedelta(days=int(duration))
-#        # Save the redeem code and limit in your database
-#        save_redeem_code(f"TG_FILE_STORE_{code_id}", expiration_date, limit)
-#        await message.reply_text(f"Redeem code generated: <code>TG_FILE_STORE_{code_id}</code>\n"
-#                                  f"Expires: {expiration_date}\n"
-#                                  f"Limit: {limit}")
-#    except ValueError:
-#        await message.reply_text("Invalid command format. Use /redeemcode duration limit.")
-#    except Exception as e:
-#        print(e)
-#        await message.reply_text("Something went wrong.")
+@bot.on_message(filters.command("redeemcode") & filters.user(config.OWNER_ID))
+async def redeemcode(client: Client, message: Message):
+    try:
+        _, duration, limit = message.text.split(" ", 2)
+        limit = int(limit)
+        code_id = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
+        expiration_date = datetime.utcnow() + timedelta(days=int(duration))
+        # Save the redeem code and limit in your database
+        #save_redeem_code(f"TG_FILE_STORE_{code_id}", expiration_date, limit)
+        await message.reply_text(f"Redeem code generated: <code>TG_FILE_STORE_{code_id}</code>\n"
+                                  f"Expires: {expiration_date}\n"
+                                  f"Limit: {limit}")
+    except ValueError:
+        await message.reply_text("Invalid command format. Use /redeemcode duration limit.")
+    except Exception as e:
+        print(e)
+        await message.reply_text("Something went wrong.")
 
 #@bot.on_message(filters.command("redeem") & filters.private)
 #async def redeem(client: Client, message: Message):

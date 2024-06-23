@@ -29,7 +29,7 @@ PROTECT_CONTENT = True if os.environ.get('PROTECT_CONTENT', "False") == "True" e
 CUSTOM_CAPTION = os.environ.get("CUSTOM_CAPTION", None)
 
 @bot.on_message(filters.command("start") & filters.private)
-async def start_command(client, message: Message):
+async def start(client, message: Message):
     add_user(message.from_user.id)
     text = message.text
 
@@ -43,12 +43,11 @@ async def start_command(client, message: Message):
             string = await decode(base64_string)
             argument = string.split("-")
 
-            if len(argument) == 3:
+            if len(argument) > 1:
                 start = int(int(argument[1]) / abs(client.db_channel.id))
-                end = int(int(argument[2]) / abs(client.db_channel.id))
+                end = int(int(argument[2]) / abs(client.db_channel.id)) if len(argument) > 2 else start
                 ids = list(range(start, end + 1))
-
-            elif len(argument) == 2:
+            else:
                 ids = [int(int(argument[1]) / abs(client.db_channel.id))]
 
             temp_msg = await message.reply("Please wait...")
@@ -105,6 +104,7 @@ async def start_command(client, message: Message):
             "I can save private files on certain channels, and other users can access them from a special link.",
             reply_markup=start_keyboard
         )
+
         
 @bot.on_callback_query(filters.regex("about"))
 async def about_callback(_, callback_query):

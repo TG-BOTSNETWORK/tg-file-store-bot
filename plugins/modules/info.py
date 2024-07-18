@@ -13,10 +13,10 @@ def get_user_info(user: User):
         f"<b>Profile Link:</b> <a href='tg://user?id={user.id}'><b>Click Here</b></a>\n"
         f"<b>Is Scam:</b> {'Yes' if user.is_scam else 'No'}\n"
         f"<b>Is Premium:</b> {'Yes' if user.is_premium else 'No'}\n"
+        f"<b>Is Verified:</b> {'Yes' if user.is_verified else 'No'}\n"
+        f"<b>Is Fake:</b> {'Yes' if user.is_fake else 'No'}\n"
         f"<b>Last Seen:</b> {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
     )
-    if hasattr(user, 'phone_number') and user.phone_number:
-        user_info += f"<b>Phone Number:</b> {user.phone_number}\n"
     return user_info
 
 @app.on_message(filters.command("info"))
@@ -36,14 +36,11 @@ async def info_command(client: Client, message: Message):
             reply_message = await message.reply_photo(photo=profile_pic, caption=user_info, parse_mode=ParseMode.HTML)
             if profile_pic:
                 os.remove(profile_pic)
-
-        # Check if the original message is still available before attempting to delete
         if message.chat and message.id:
             try:
-                await message.delete()  # Delete the original "Searching user ID..." message
+                await message.delete()  
             except Exception as delete_error:
                 print(f"Error deleting message: {delete_error}")
-
     except ValueError:
         await message.reply_text("Invalid user ID. Please provide a valid numerical user ID.")
     except Exception as e:

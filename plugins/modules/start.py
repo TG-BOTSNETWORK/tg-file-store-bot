@@ -102,9 +102,10 @@ async def start(client, message: Message):
         await message.reply_text(
             f"Hello {message.from_user.mention}\n\nI am a private files save bot. "
             "I can save private files on certain channels, and other users can access them from a special link.",
-            reply_markup=start_keyboard
+            reply_markup=InlineKeyboardMarkup(
+                [[InlineKeyboardButton("Help", callback_data="help")]]
+            )
         )
-
         
 @bot.on_callback_query(filters.regex("about"))
 async def about_callback(_, callback_query):
